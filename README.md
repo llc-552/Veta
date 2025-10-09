@@ -68,7 +68,7 @@ cd veta
 
 2. **创建 Conda 环境**
 ```bash
-# 创建名为 veta 的 conda 环境，指定 Python 3.9+
+# 创建名为 veta 的 conda 环境，指定 Python 3.12+
 conda create -n veta python=3.12
 
 # 激活环境
