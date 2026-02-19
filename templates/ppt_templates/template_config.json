@@ -1,0 +1,302 @@
+{
+  "templates": [
+    {
+      "id": "template_academic",
+      "name": "学术风格模板",
+      "description": "适合学术和科研相关的教学内容",
+      "category": ["science", "research", "academic"],
+      "colors": {
+        "primary": "#1F4788",
+        "secondary": "#4A7BA7",
+        "accent": "#E8A537",
+        "background": "#FFFFFF"
+      },
+      "layout": {
+        "title_slide": {
+          "layout_name": "title_slide",
+          "elements": [
+            {
+              "type": "title",
+              "position": {"x": 0.1, "y": 0.35},
+              "width": 0.8,
+              "height": 0.15,
+              "font_size": 54,
+              "font_color": "#1F4788"
+            },
+            {
+              "type": "subtitle",
+              "position": {"x": 0.1, "y": 0.55},
+              "width": 0.8,
+              "height": 0.1,
+              "font_size": 32,
+              "font_color": "#4A7BA7"
+            },
+            {
+              "type": "author",
+              "position": {"x": 0.1, "y": 0.75},
+              "width": 0.8,
+              "height": 0.08,
+              "font_size": 18,
+              "font_color": "#666666"
+            }
+          ]
+        },
+        "content_slide": {
+          "layout_name": "content",
+          "elements": [
+            {
+              "type": "title",
+              "position": {"x": 0.05, "y": 0.02},
+              "width": 0.9,
+              "height": 0.08,
+              "font_size": 44,
+              "font_color": "#1F4788"
+            },
+            {
+              "type": "content",
+              "position": {"x": 0.05, "y": 0.12},
+              "width": 0.9,
+              "height": 0.8,
+              "font_size": 24,
+              "font_color": "#333333"
+            },
+            {
+              "type": "image",
+              "position": {"x": 0.55, "y": 0.15},
+              "width": 0.4,
+              "height": 0.75,
+              "optional": true
+            }
+          ]
+        },
+        "summary_slide": {
+          "layout_name": "summary",
+          "elements": [
+            {
+              "type": "title",
+              "position": {"x": 0.05, "y": 0.02},
+              "width": 0.9,
+              "height": 0.08,
+              "font_size": 44,
+              "font_color": "#1F4788"
+            },
+            {
+              "type": "content_list",
+              "position": {"x": 0.1, "y": 0.15},
+              "width": 0.8,
+              "height": 0.75,
+              "font_size": 24,
+              "font_color": "#333333"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "template_business",
+      "name": "商业风格模板",
+      "description": "适合商业和管理类教学内容",
+      "category": ["business", "management", "professional"],
+      "colors": {
+        "primary": "#2C3E50",
+        "secondary": "#34495E",
+        "accent": "#E74C3C",
+        "background": "#ECF0F1"
+      },
+      "layout": {
+        "title_slide": {
+          "layout_name": "title_slide",
+          "elements": [
+            {
+              "type": "background_shape",
+              "shape": "rectangle",
+              "position": {"x": 0, "y": 0},
+              "width": 1,
+              "height": 0.5,
+              "fill_color": "#2C3E50"
+            },
+            {
+              "type": "title",
+              "position": {"x": 0.1, "y": 0.15},
+              "width": 0.8,
+              "height": 0.2,
+              "font_size": 54,
+              "font_color": "#FFFFFF"
+            },
+            {
+              "type": "subtitle",
+              "position": {"x": 0.1, "y": 0.6},
+              "width": 0.8,
+              "height": 0.15,
+              "font_size": 32,
+              "font_color": "#34495E"
+            }
+          ]
+        },
+        "content_slide": {
+          "layout_name": "content",
+          "elements": [
+            {
+              "type": "header_bar",
+              "position": {"x": 0, "y": 0},
+              "width": 1,
+              "height": 0.08,
+              "fill_color": "#2C3E50"
+            },
+            {
+              "type": "title",
+              "position": {"x": 0.05, "y": 0.02},
+              "width": 0.9,
+              "height": 0.06,
+              "font_size": 40,
+              "font_color": "#FFFFFF"
+            },
+            {
+              "type": "content",
+              "position": {"x": 0.08, "y": 0.15},
+              "width": 0.84,
+              "height": 0.75,
+              "font_size": 22,
+              "font_color": "#2C3E50"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "template_creative",
+      "name": "创意风格模板",
+      "description": "适合艺术、创意和文化相关的教学内容",
+      "category": ["creative", "art", "design"],
+      "colors": {
+        "primary": "#9B59B6",
+        "secondary": "#D35400",
+        "accent": "#F39C12",
+        "background": "#F8F8F8"
+      },
+      "layout": {
+        "title_slide": {
+          "layout_name": "title_slide",
+          "elements": [
+            {
+              "type": "background_gradient",
+              "gradient": "linear",
+              "color1": "#9B59B6",
+              "color2": "#D35400",
+              "angle": 45
+            },
+            {
+              "type": "title",
+              "position": {"x": 0.1, "y": 0.3},
+              "width": 0.8,
+              "height": 0.25,
+              "font_size": 60,
+              "font_color": "#FFFFFF",
+              "font_weight": "bold"
+            },
+            {
+              "type": "subtitle",
+              "position": {"x": 0.1, "y": 0.6},
+              "width": 0.8,
+              "height": 0.15,
+              "font_size": 28,
+              "font_color": "#F8F8F8"
+            }
+          ]
+        },
+        "content_slide": {
+          "layout_name": "content",
+          "elements": [
+            {
+              "type": "title",
+              "position": {"x": 0.05, "y": 0.02},
+              "width": 0.9,
+              "height": 0.1,
+              "font_size": 44,
+              "font_color": "#9B59B6"
+            },
+            {
+              "type": "left_panel",
+              "position": {"x": 0.05, "y": 0.15},
+              "width": 0.45,
+              "height": 0.8,
+              "content_type": "text"
+            },
+            {
+              "type": "right_panel",
+              "position": {"x": 0.52, "y": 0.15},
+              "width": 0.43,
+              "height": 0.8,
+              "content_type": "image_or_graphic"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "template_minimal",
+      "name": "极简风格模板",
+      "description": "适合各类教学，强调内容清晰性",
+      "category": ["all"],
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#333333",
+        "accent": "#0099FF",
+        "background": "#FFFFFF"
+      },
+      "layout": {
+        "title_slide": {
+          "layout_name": "title_slide",
+          "elements": [
+            {
+              "type": "title",
+              "position": {"x": 0.1, "y": 0.35},
+              "width": 0.8,
+              "height": 0.2,
+              "font_size": 56,
+              "font_color": "#000000",
+              "font_weight": "bold"
+            },
+            {
+              "type": "accent_line",
+              "position": {"x": 0.1, "y": 0.58},
+              "width": 0.2,
+              "height": 0.01,
+              "fill_color": "#0099FF"
+            },
+            {
+              "type": "subtitle",
+              "position": {"x": 0.1, "y": 0.65},
+              "width": 0.8,
+              "height": 0.1,
+              "font_size": 24,
+              "font_color": "#333333"
+            }
+          ]
+        },
+        "content_slide": {
+          "layout_name": "content",
+          "elements": [
+            {
+              "type": "title",
+              "position": {"x": 0.05, "y": 0.02},
+              "width": 0.9,
+              "height": 0.08,
+              "font_size": 40,
+              "font_color": "#000000"
+            },
+            {
+              "type": "content",
+              "position": {"x": 0.05, "y": 0.12},
+              "width": 0.9,
+              "height": 0.8,
+              "font_size": 24,
+              "font_color": "#333333"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+

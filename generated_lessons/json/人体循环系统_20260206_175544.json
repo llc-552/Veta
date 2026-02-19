@@ -1,0 +1,451 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-02-06T17:55:45.074339",
+    "export_id": "8c04416b-e66e-4abd-8bbf-0e367552b724",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "人体循环系统：生命的运输网络",
+      "learning_objectives": [
+        "能准确说出血液循环系统的三大组成部分（心脏、血管、血液）及其基本结构特征",
+        "能用语言和简图区分体循环与肺循环的路径起点、终点、气体交换部位及功能差异",
+        "能指出心脏四腔室（左/右心房、左/右心室）的位置关系，解释房室瓣与动脉瓣如何协同保障血液单向流动",
+        "能列举血液的四种主要成分（红细胞、白细胞、血小板、血浆），并匹配其核心生理功能（运输O₂/CO₂、免疫防御、止血凝血、物质运载与稳态调节）",
+        "能在教师引导下，合作完成手绘‘双循环简图’，并口头阐述心脏—动脉—毛细血管—静脉—心脏的协同工作流程"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "PPT课件（含心脏3D旋转动画、双循环动态路径图、血管结构对比显微图、血涂片显微照片）",
+        "A3空白循环系统简图工作纸（含心脏轮廓、左右心房/心室标注框、主干血管留白标注区）",
+        "彩色铅笔/马克笔（红蓝双色——红色表含氧血，蓝色表缺氧血）",
+        "一次性血压计（演示用，非测量）、电子脉搏仪（或教师用手指示范桡动脉触诊）",
+        "生活类比卡片：‘快递中心（心脏）’‘高速公路（动脉）’‘社区小路（毛细血管）’‘回收专线（静脉）’‘快递员（红细胞）’‘保安队（白细胞）’‘创可贴（血小板）’‘物流水箱（血浆）’"
+      ],
+      "introduction": "同学们，早上跑步后为什么心跳加快？伤口流血为什么会慢慢止住？感冒时医生常摸你的手腕——那是在测什么？这些看似平常的现象，背后都有一套24小时不停歇的‘人体物流系统’在工作。今天我们就一起揭开它的神秘面纱：人体循环系统。它就像一座精密的城市交通网——有指挥中心（心脏）、主干道（动脉）、毛细末梢（毛细血管）、回流专线（静脉），还有穿梭其中的‘生命快递员’（血液）。本节课，我们将化身‘循环系统工程师’，拆解这套系统如何把氧气、养分精准送达每个细胞，又把废物安全运走。",
+      "main_content": [
+        {
+          "section_title": "一、系统总览：三大核心部件",
+          "content": "循环系统由心脏（泵）、血管（管道）和血液（运输液）三部分构成。心脏是中空肌肉器官，位于胸腔中部偏左；血管包括动脉（离心、厚壁、高压）、静脉（回心、薄壁有瓣膜、低压）和毛细血管（连通动静脉、单层细胞壁、物质交换场所）；血液是结缔组织，由血浆（淡黄色液体，占55%，含水、蛋白质、激素等）和血细胞（45%）组成。强调：这不是静态‘容器’，而是动态‘活系统’——所有结构都为高效运输与交换而特化。",
+          "key_points": [
+            "心脏=动力泵 | 血管=运输通道 | 血液=功能载体",
+            "动脉→毛细血管→静脉：构成完整回路",
+            "毛细血管壁仅1层细胞，是唯一能进行物质交换的血管类型"
+          ],
+          "notes": "用‘快递中心→高速路→小区路→回收车’类比强化理解；展示真实血管横切显微图（动脉厚肌层 vs 静脉大腔+瓣膜），引导学生观察结构差异"
+        },
+        {
+          "section_title": "二、心脏：四腔一心，瓣膜护航",
+          "content": "心脏有四个腔室：上方为心房（接收血液），下方为心室（泵出血液）；左侧含氧血，右侧缺氧血。左心房→左心室→主动脉→全身→上下腔静脉→右心房→右心室→肺动脉→肺→肺静脉→左心房，形成闭环。关键在瓣膜：房室瓣（二尖瓣、三尖瓣）防止心室收缩时血倒流回心房；动脉瓣（主动脉瓣、肺动脉瓣）防止动脉血在心室舒张时倒流回心室。播放心脏跳动动画，同步标注‘收缩期（瓣膜开合声：咚—嗒）’，说明‘咚’是房室瓣关闭（心室泵血开始），‘嗒’是动脉瓣关闭（泵血结束）。",
+          "key_points": [
+            "左心：含氧血 | 右心：缺氧血（永不混合！）",
+            "房室瓣→防‘上逆’ | 动脉瓣→防‘下返’",
+            "一次心跳=一次完整泵血周期（约0.8秒）"
+          ],
+          "notes": "邀请学生用双手模拟‘捏拳（心室收缩）→松开（舒张）’，体会压力变化；强调‘单向阀’原理——类似地铁闸机只进不出"
+        },
+        {
+          "section_title": "三、双循环模型：体循环 vs 肺循环",
+          "content": "人体采用‘双泵双环’设计：肺循环（小循环）负责气体更新——右心室→肺动脉→肺毛细血管（CO₂排出、O₂吸入）→肺静脉→左心房；体循环（大循环）负责全身供给——左心室→主动脉→全身毛细血管（O₂/养分释放，CO₂/废物回收）→上下腔静脉→右心房。二者串联运行：肺循环‘充值’，体循环‘放电’。强调：肺动脉流缺氧血，肺静脉流含氧血——这是唯一例外！用红蓝双色箭头动态演示路径，对比表格呈现差异（起点/终点/气体状态/主要功能）。",
+          "key_points": [
+            "肺循环：右心→肺→左心 | 体循环：左心→全身→右心",
+            "肺循环：气体交换（O₂↑, CO₂↓）| 体循环：物质交换（O₂↓, CO₂↑, 养分↓, 废物↑）",
+            "肺动脉≠含氧动脉，肺静脉≠缺氧静脉——名称按路径定，非按血氧定！"
+          ],
+          "notes": "提问：如果肺循环受阻（如肺炎），最先影响哪个循环？引导学生推理‘左心供血不足→体循环乏力’"
+        },
+        {
+          "section_title": "四、血液：四大‘员工’各司其职",
+          "content": "血浆（55%）：水基‘物流水箱’，运载营养、激素、抗体、代谢废物，维持pH与渗透压；红细胞（44%，含血红蛋白）：‘氧气快递员’，双凹圆盘状增大表面积，无核提升携氧效率；白细胞（<1%）：‘免疫保安队’，可变形穿出血管，吞噬病原或产生抗体；血小板（<1%）：‘创可贴小组’，碎片状，激活后聚集封堵血管破口。展示血涂片显微照片（标出各成分形态），联系学生曾做的‘显微镜观察’实验。",
+          "key_points": [
+            "血浆=运输介质+稳态调节者",
+            "红细胞：双凹盘→高表面积/体积比→高效携氧",
+            "白细胞：变形运动+识别能力→特异性/非特异性免疫",
+            "血小板：无核细胞碎片→快速启动凝血瀑布反应"
+          ],
+          "notes": "类比：‘血浆是快递车的车厢，红细胞是司机，白细胞是安检员，血小板是维修工’；提醒贫血=红细胞/血红蛋白不足，炎症=白细胞增多"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "双循环手绘协作赛",
+          "description": "小组合作完成A3循环简图：用红蓝双色笔标注心脏四腔、主干血管、气体交换部位，并添加箭头表示血流方向。",
+          "duration_minutes": 10,
+          "instructions": [
+            "每组发放A3简图工作纸、红蓝双色笔",
+            "步骤1：标注左/右心房、左/右心室（文字+颜色）",
+            "步骤2：用红色箭头画体循环路径（左心室→主动脉→全身→腔静脉→右心房）",
+            "步骤3：用蓝色箭头画肺循环路径（右心室→肺动脉→肺→肺静脉→左心房）",
+            "步骤4：在肺部和全身毛细血管处标注‘O₂进入/CO₂排出’或‘O₂释放/CO₂收集’",
+            "教师巡视指导，强调‘肺动脉蓝、肺静脉红’的易错点"
+          ]
+        },
+        {
+          "activity_name": "脉搏与血压初体验",
+          "description": "教师示范桡动脉触诊，学生两两互测静息脉搏；展示电子血压计读数（仅示例，不实测），解释‘收缩压/舒张压’含义。",
+          "duration_minutes": 5,
+          "instructions": [
+            "教师边讲解边用食指、中指轻按自己桡动脉（拇指勿用！），数15秒×4得心率",
+            "学生同桌两人一组，轮流触诊对方桡动脉，记录静息脉搏（正常60–100次/分）",
+            "教师展示血压计数值（如120/80 mmHg），类比‘水管水压’：120=心脏收缩最大压，80=心室舒张最小压",
+            "提问：运动后脉搏为何加快？——引出‘心脏需加速泵血满足细胞需氧量’"
+          ]
+        }
+      ],
+      "assessment": "形成性评估：①课堂问答（随机点名解释‘为什么肺动脉流缺氧血？’‘血小板如何止血？’）；②手绘图现场抽查（3组展示，全班用‘👍/❓’手势反馈正确性）；③脉搏测量数据记录表（课后收齐，检查是否理解‘脉搏=动脉搏动=心率’）。总结性评估（课后）：完成‘血液循环系统概念图’（中心词‘循环系统’，分支延伸至器官、结构、功能、疾病关联）。",
+      "closure": "今天我们共同构建了人体循环系统的知识地图：从心脏四腔的精密分工，到动脉—毛细血管—静脉的三级管道网络，再到红蓝双色血液的昼夜奔流。记住——循环系统不是孤立存在，它与呼吸系统（提供O₂/排出CO₂）、消化系统（提供养分）、泌尿系统（清除废物）紧密协作。下节课，我们将走进‘血液实验室’，用显微镜深度观察红细胞形态，并模拟‘ABO血型鉴定’实验。请预习课本P72–75，并思考：输血为何必须血型匹配？——这正是循环系统‘身份认证’机制的体现！"
+    },
+    "ppt_outline": {
+      "total_slides": 12,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "人体循环系统：生命的运输网络",
+          "bullet_points": [
+            "初中生物 · 七年级下册 · 第四章第二节",
+            "授课教师：XXX | 时长：45分钟"
+          ],
+          "speaker_notes": "微笑开场，播放10秒心跳音效；提问导入：‘听到这个声音，你想到了什么？’",
+          "suggested_images": [
+            "高清人体胸腔解剖图（突出心脏位置）",
+            "动态心跳声波图"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "本课导航：我们即将探索...",
+          "bullet_points": [
+            "✅ 心脏、血管、血液——三大核心部件",
+            "✅ 四腔一心 + 瓣膜单向阀——心脏如何精准泵血？",
+            "✅ 体循环 vs 肺循环——两条路径如何分工协作？",
+            "✅ 血液四大成分——谁在运输？谁在防御？谁在修复？",
+            "✅ 动手实践：绘制你的第一张‘双循环简图’！"
+          ],
+          "speaker_notes": "清晰列出学习目标，用✅符号增强完成感；强调‘学完就能画、就能讲、就能联生活’",
+          "suggested_images": [
+            "卡通风格循环系统全景图"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "一、系统总览：心脏 · 血管 · 血液",
+          "bullet_points": [
+            "心脏：中空肌肉泵（胸腔中部偏左）",
+            "血管：动脉（厚壁离心）、静脉（薄壁回心+瓣膜）、毛细血管（单层壁，交换站）",
+            "血液：血浆（55%）+ 血细胞（45%）"
+          ],
+          "speaker_notes": "点击出现‘快递中心→高速路→社区路→回收车’类比动画；切换至真实血管显微图对比",
+          "suggested_images": [
+            "动脉与静脉横切显微对比图",
+            "毛细血管网电镜图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "content",
+          "title": "二、心脏解密：四腔与瓣膜",
+          "bullet_points": [
+            "四腔：左心房、左心室｜右心房、右心室",
+            "瓣膜：房室瓣（防倒流回心房）｜动脉瓣（防倒流回心室）",
+            "一次心跳 = 咚（房室瓣关）+ 嗒（动脉瓣关）"
+          ],
+          "speaker_notes": "播放心脏3D旋转动画（标注四腔+瓣膜位置）；同步播放‘咚—嗒’音效；强调‘左氧右缺，永不混合’",
+          "suggested_images": [
+            "心脏3D解剖动画截图",
+            "瓣膜开闭机制示意图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "content",
+          "title": "三、双循环模型：体循环 vs 肺循环",
+          "bullet_points": [
+            "肺循环：右心室 → 肺动脉 → 肺 → 肺静脉 → 左心房（气体更新）",
+            "体循环：左心室 → 主动脉 → 全身 → 腔静脉 → 右心房（物质供给）",
+            "⚠️ 特别注意：肺动脉流缺氧血！肺静脉流含氧血！"
+          ],
+          "speaker_notes": "点击触发双色动态路径：红色（体循环）从左心出发绕全身，蓝色（肺循环）从右心出发绕肺；停顿强调易错点",
+          "suggested_images": [
+            "双循环动态路径GIF",
+            "肺循环/体循环对比表格"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "content",
+          "title": "四、血液成分：四大‘生命员工’",
+          "bullet_points": [
+            "血浆：水基‘物流水箱’（运载+稳态）",
+            "红细胞：双凹盘‘氧气快递员’（含血红蛋白）",
+            "白细胞：变形‘免疫保安队’（吞噬/抗体）",
+            "血小板：碎片‘创可贴’（激活→凝血）"
+          ],
+          "speaker_notes": "逐项出现，配合对应显微照片；强调‘红细胞无核’‘白细胞有核’‘血小板无核碎片’的结构-功能关联",
+          "suggested_images": [
+            "标准化血涂片显微照片（标注四成分）",
+            "血红蛋白携氧分子模型图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "activity",
+          "title": "动手时间！双循环手绘协作赛",
+          "bullet_points": [
+            "材料：A3简图纸、红蓝双色笔",
+            "任务：标注四腔 + 红蓝路径 + 气体交换标注",
+            "提示：肺动脉→蓝，肺静脉→红！"
+          ],
+          "speaker_notes": "分发材料，明确计时（10分钟）；强调‘不必完美，重在逻辑’；教师巡堂重点纠‘肺动静脉颜色’错误",
+          "suggested_images": [
+            "A3简图工作纸样图",
+            "红蓝双色循环路径示意图"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "activity",
+          "title": "脉搏初体验：触摸你的心跳",
+          "bullet_points": [
+            "位置：手腕桡动脉（拇指下侧）",
+            "方法：食指+中指轻按，数15秒×4",
+            "正常值：60–100次/分钟",
+            "血压小知识：120/80 = 收缩压/舒张压"
+          ],
+          "speaker_notes": "教师现场示范；强调‘不用拇指（自带脉搏干扰）’；展示血压计界面截图，类比‘水管水压’",
+          "suggested_images": [
+            "桡动脉定位示意图",
+            "电子血压计界面截图"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "content",
+          "title": "生活链接：循环系统在身边",
+          "bullet_points": [
+            "运动后脸红、心跳快 → 体循环加速供氧",
+            "伤口止血结痂 → 血小板+凝血因子启动",
+            "发烧时白细胞升高 → 免疫系统正在作战",
+            "高原反应头晕 → 血红蛋白携氧不足"
+          ],
+          "speaker_notes": "每点配实景小图；提问‘你还遇到过哪些循环相关现象？’鼓励分享，强化学科与生活联结",
+          "suggested_images": [
+            "学生跑步后脸红照片",
+            "伤口结痂过程图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 10,
+          "slide_type": "summary",
+          "title": "知识图谱：循环系统核心框架",
+          "bullet_points": [
+            "结构：心脏（泵）+ 血管（道）+ 血液（液）",
+            "路径：肺循环（气换）←→体循环（物换）",
+            "心脏：四腔分离｜瓣膜单向｜左氧右缺",
+            "血液：血浆（运载）+ 红（运氧）+ 白（免疫）+ 血小板（止血）"
+          ],
+          "speaker_notes": "用思维导图形式呈现，中心‘循环系统’，四大分支展开；强调‘结构决定功能’这一生物学大概念",
+          "suggested_images": [
+            "循环系统概念图（中心辐射式）"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 11,
+          "slide_type": "summary",
+          "title": "常见误区澄清",
+          "bullet_points": [
+            "❌ 肺动脉流的是含氧血 → ✅ 实为缺氧血！",
+            "❌ 心脏左右心相通 → ✅ 完全被间隔分开！",
+            "❌ 血小板是完整细胞 → ✅ 是骨髓巨核细胞脱落的碎片！",
+            "❌ 血压越高越好 → ✅ 过高损伤血管，过低供血不足"
+          ],
+          "speaker_notes": "用红叉→绿勾动画切换；每条配简笔小图标（如肺动脉旁画蓝血滴）强化记忆",
+          "suggested_images": [
+            "肺动脉标注‘缺氧血’的简笔图",
+            "心脏纵切面强调房间隔/室间隔"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 12,
+          "slide_type": "cover",
+          "title": "下节预告：血液实验室探秘",
+          "bullet_points": [
+            "显微镜再探血涂片：找寻‘双凹盘’红细胞",
+            "模拟ABO血型鉴定：为何输血要匹配？",
+            "预习任务：课本P72–75 + 思考题"
+          ],
+          "speaker_notes": "展示显微镜下高清红细胞照片；抛出悬念：‘如果输错血型，会发生什么？’激发探究欲；微笑结束",
+          "suggested_images": [
+            "高倍镜下红细胞照片",
+            "ABO血型鉴定卡示意图"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果一个人的二尖瓣关闭不全，血液可能倒流到哪里？会对身体造成什么影响？",
+      "毛细血管壁为什么必须是单层细胞？如果变厚会怎样？",
+      "为什么剧烈运动后，不仅心跳加快，呼吸也加快？循环系统和呼吸系统如何协作？",
+      "贫血患者常感到乏力、头晕，这与循环系统的哪个结构或成分功能异常有关？",
+      "‘久坐不动增加血栓风险’——这与静脉的哪些结构特点有关？如何预防？"
+    ],
+    "homework": "【基础】完成《学案》P15–16：填空+选择+简图标注；【拓展】查阅资料，写一段150字科普短文《我的血液一天》，以第一人称描述红细胞从肺部携氧出发，经体循环送达肌肉细胞的旅程；【实践】在家测量并记录自己静息、快走2分钟后、休息5分钟后的脉搏，分析变化原因。"
+  }
+}

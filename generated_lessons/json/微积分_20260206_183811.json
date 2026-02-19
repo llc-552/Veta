@@ -1,0 +1,429 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-02-06T18:51:18.257658",
+    "export_id": "7cd200ab-4c29-405e-b35b-f4b4015a1ac0",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "微积分导论：从变化率到累积量",
+      "learning_objectives": [
+        "能用几何与物理语言解释导数（切线斜率、瞬时变化率）和不定积分（原函数、累积量）的本质含义",
+        "能熟练计算多项式函数的导数与不定积分，掌握幂函数求导/积分法则及线性性质",
+        "能将导数应用于简单运动学问题（如由位移求速度），并将不定积分用于估算曲线下面积或反向建模"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "PPT课件（含动态割线→切线动画、曲线下面积分割-求和-极限动画）",
+        "白板/电子白板 + 彩色笔（用于板书推导与图示）",
+        "学生手卡（含1道快速响应题：判断导数/积分物理意义配对）",
+        "打印版课堂练习页（2道分层例题+1道建模小任务）"
+      ],
+      "introduction": "同学们，大家刚学完高中函数与极限的直观概念——还记得当割线越来越靠近某一点时，它的斜率在‘奔向’什么吗？那正是我们今天要开启的数学大门：微积分。它不是一堆抽象公式，而是人类300多年来理解‘变化’与‘累积’最强大的语言。从自动驾驶汽车实时调整方向，到医生分析药物在血液中的浓度变化；从估算一片不规则湖泊的面积，到预测人口增长趋势——背后都站着微积分。本节课，我们将以‘看得见、想得通、算得对’为线索，聚焦三个核心问题：① 导数到底在描述什么？② 积分又在累加什么？③ 它们之间为什么被称作‘一对孪生兄弟’？让我们从一个真实场景开始：一辆电动车沿直线行驶，其位置s（单位：米）随时间t（单位：秒）变化的关系为 s(t) = t² + 2t。请问：第3秒末它的瞬时速度是多少？——别急着代公式，先想想：速度的本质是什么？",
+      "main_content": [
+        {
+          "section_title": "一、导数：变化的瞬时快照（几何+物理双视角）",
+          "content": "从平均速度（Δs/Δt）出发，引导学生回顾割线斜率；通过PPT动画展示Δt→0过程，自然引出导数定义：f'(a) = lim_{h→0} [f(a+h)−f(a)]/h。强调两点本质：① 几何上=曲线在该点的切线斜率；② 物理上=瞬时变化率（如速度、增长率、边际成本）。以s(t)=t²+2t为例，板书动态推导s'(t)=2t+2，并代入t=3得v(3)=8 m/s——呼应开场问题。指出导数是‘局部线性化’思想的体现：在极小范围内，用直线逼近曲线。",
+          "key_points": [
+            "导数定义依赖极限，是割线斜率的极限位置",
+            "f'(a) 表示函数在x=a处的瞬时变化率，也是切线斜率",
+            "基本求导法则：(xⁿ)' = nxⁿ⁻¹；(cf)' = cf'；(f+g)' = f'+g'"
+          ],
+          "notes": "此处务必放慢节奏，让学生同步在草稿纸上完成h→0的代数化简；用红笔标出‘消去h’的关键步骤，强化极限思想。避免直接抛出公式。"
+        },
+        {
+          "section_title": "二、不定积分：导数的‘逆向寻源’",
+          "content": "提问：‘如果已知某物体的速度函数v(t)=2t+2，能否还原出它的位置函数？’ 引出原函数概念——所有满足F'(x)=f(x)的函数F(x)统称为f(x)的不定积分，记作∫f(x)dx = F(x)+C。强调C的必要性（初始条件决定具体轨迹）。结合PPT中‘面积累积’动画：将v-t图下阶梯状矩形面积求和→分割加细→极限→曲线下面积，说明∫v(t)dt即位移累积量。演示∫(2t+2)dt = t²+2t+C，与s(t)完全一致，揭示微分与积分的可逆性。",
+          "key_points": [
+            "不定积分是求导的逆运算，结果是一族相差常数的函数",
+            "∫xⁿ dx = xⁿ⁺¹/(n+1) + C（n≠−1）；∫[af+bg]dx = a∫f dx + b∫g dx",
+            "积分常数C代表初始状态（如t=0时的位置）"
+          ],
+          "notes": "用蓝笔板书积分过程，与前面红色求导过程形成视觉对比；强调‘+C’不可省略，并举例：若已知s(0)=5，则C=5。"
+        },
+        {
+          "section_title": "三、微积分基本定理（FTC）初探：连接微分与积分的桥梁",
+          "content": "简明陈述FTC第一部分：若f连续，则F(x)=∫ₐˣ f(t)dt 是f的一个原函数，即F'(x)=f(x)。用‘面积函数的变化率就是被积函数本身’来解读——例如，v(t)曲线下的面积累积速率，恰好等于当前时刻的速度值。此即‘变化率与累积量互为镜像’的核心洞见。暂不展开第二部分（定积分计算），但点明：它将使面积计算从无限求和变为‘找原函数’的代数操作。",
+          "key_points": [
+            "FTC揭示了微分与积分是互逆运算，构成微积分的逻辑基石",
+            "‘面积函数’的导数=被积函数 → 直观理解‘变化率驱动累积’",
+            "为后续定积分应用（如净变化量、总位移）埋下伏笔"
+          ],
+          "notes": "此处用PPT动态高亮显示‘d/dx ∫ₐˣ v(t)dt = v(x)’，配合箭头动画连接‘面积→斜率→速度’。避免证明，重在概念贯通。"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "概念匹配快问快答",
+          "description": "发放手卡，呈现4组左右术语（如‘切线斜率’‘瞬时速度’‘曲线下面积’‘原函数’），要求学生2分钟内完成导数/积分对应关系连线，并举手反馈正确率。",
+          "duration_minutes": 3,
+          "instructions": [
+            "请将左侧物理/几何描述与右侧数学对象准确匹配",
+            "完成后举左手表示‘全部确认’，右手表示‘有1处不确定’",
+            "教师即时统计并澄清高频误区（如混淆‘平均速度’与‘瞬时速度’）"
+          ]
+        },
+        {
+          "activity_name": "合作建模小任务",
+          "description": "小组（3人）讨论：某细菌种群数量N(t)（单位：千个）随时间t（小时）按N(t)=100e^{0.2t}增长。① 写出其瞬时增长率表达式；② 解释∫₀³ N'(t)dt 的实际意义，并估算其值（可用计算器）。",
+          "duration_minutes": 7,
+          "instructions": [
+            "第1步：对N(t)求导得到增长率N'(t)",
+            "第2步：根据FTC，∫₀³ N'(t)dt = N(3)−N(0)，即3小时内新增细菌数",
+            "鼓励用数值验证：N(3)≈182.2，N(0)=100 → 增量≈82.2千个"
+          ]
+        }
+      ],
+      "assessment": "形成性评估贯穿全程：① 手卡匹配题即时反馈；② 板书演算中观察学生跟写情况；③ 小组任务巡视，捕捉典型错误（如漏写e^{0.2t}的链式法则、误解积分上下限意义）；④ 结课前1分钟‘一句话收获’口头分享（随机点2名学生）。总结性评估：课后作业含1道导数应用题、1道积分建模题、1道FTC概念辨析题。",
+      "closure": "今天我们揭开了微积分的面纱：导数是‘变化的镜头’，积分是‘累积的容器’，而基本定理则是它们之间的DNA纽带。记住——微积分不是关于无穷小的诡辩，而是关于如何用有限工具把握无限精细的变化。下节课，我们将深入‘链式法则’与‘换元积分’，解锁更复杂函数的分析能力。请大家带着一个问题离开：如果导数描述‘此刻有多快’，那么二阶导数又在告诉我们什么？（提示：与加速度、曲线弯曲程度有关）"
+    },
+    "ppt_outline": {
+      "total_slides": 12,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "微积分导论：从变化率到累积量",
+          "bullet_points": [
+            "大学一年级数学 · 45分钟",
+            "主讲：[教师姓名]",
+            "核心线索：看得见｜想得通｜算得对"
+          ],
+          "speaker_notes": "微笑开场，播放10秒电动车行驶短视频（带s-t坐标叠加），提问：‘如何精确刻画第3秒的速度？’ 引出主题。",
+          "suggested_images": [
+            "电动车沿直线行驶动画",
+            "s-t坐标系中抛物线s(t)=t²+2t"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "为什么需要微积分？——从‘平均’到‘瞬时’",
+          "bullet_points": [
+            "日常经验：平均速度 ≠ 瞬时速度（如高速行驶中急刹）",
+            "数学挑战：如何定义‘一点处的变化率’？",
+            "关键思想：极限——让Δt无限趋近于0"
+          ],
+          "speaker_notes": "点击触发动画：割线绕定点旋转→趋近切线；同步标注Δs/Δt数值随Δt减小而收敛。强调‘极限不是到达，而是无限逼近的过程’。",
+          "suggested_images": [
+            "动态割线趋近切线GIF",
+            "表格显示Δt=0.1,0.01,0.001时Δs/Δt值"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "导数的严格定义",
+          "bullet_points": [
+            "f'(a) = lim_{h→0} [f(a+h) − f(a)] / h",
+            "几何意义：曲线y=f(x)在x=a处的切线斜率",
+            "物理意义：量f关于x的瞬时变化率"
+          ],
+          "speaker_notes": "板书推导s(t)=t²+2t在t=3处的导数：写出差商→展开→约去h→取极限。强调每一步代数意义，而非机械套用。",
+          "suggested_images": [
+            "函数图像标注点(a,f(a))及切线",
+            "代数推导分步高亮动画"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "content",
+          "title": "基本求导法则（多项式专用）",
+          "bullet_points": [
+            "(xⁿ)' = n·xⁿ⁻¹ （n∈ℝ）",
+            "(c·f)' = c·f'；(f+g)' = f'+g'",
+            "例：d/dt (3t⁴ − 5t² + 7) = 12t³ − 10t"
+          ],
+          "speaker_notes": "用不同颜色区分各项导数；提醒常见错误：(x²+1)²不能直接套幂函数法则（需先展开或学链式法则）。",
+          "suggested_images": [
+            "彩色标记的求导过程流程图",
+            "错误示范vs正确解法对比表"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "section",
+          "title": "积分：从‘求变化’到‘求总量’",
+          "bullet_points": [
+            "问题驱动：已知速度v(t)，如何求位移s(t)？",
+            "原函数F(x)满足：F'(x)=f(x)",
+            "不定积分：∫f(x)dx = F(x) + C"
+          ],
+          "speaker_notes": "动画演示：v-t图下矩形分割→加细→面积和趋近曲线下面积；提问：‘当分割无限细，面积和的极限是什么？’ 引出∫v(t)dt。",
+          "suggested_images": [
+            "v-t图动态填充面积GIF",
+            "阶梯状矩形→光滑曲线过渡动画"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "content",
+          "title": "不定积分基本公式",
+          "bullet_points": [
+            "∫xⁿ dx = xⁿ⁺¹/(n+1) + C （n≠−1）",
+            "∫[af(x)+bg(x)]dx = a∫f(x)dx + b∫g(x)dx",
+            "例：∫(4t³ + 6) dt = t⁴ + 6t + C"
+          ],
+          "speaker_notes": "板书积分过程，与Slide 4求导形成镜像对比；强调+C的物理意义（初始位置s(0)）。",
+          "suggested_images": [
+            "求导与积分互逆关系图示",
+            "初始条件确定C的示意图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "content",
+          "title": "微积分基本定理（第一部分）",
+          "bullet_points": [
+            "若f在[a,b]连续，则F(x)=∫ₐˣ f(t)dt 可导，且F'(x)=f(x)",
+            "直观解读：面积函数的变化率 = 被积函数值",
+            "即：d/dx ∫ₐˣ v(t)dt = v(x)"
+          ],
+          "speaker_notes": "高亮显示公式中x既是上限又是求导变量；用‘水箱注水’类比：进水速率v(t)决定水位上升速率。",
+          "suggested_images": [
+            "面积函数A(x)图像及其切线斜率动画",
+            "水箱注水速率与水位关系示意图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "activity",
+          "title": "概念匹配快问快答",
+          "bullet_points": [
+            "请将下列描述与数学对象连线：",
+            "• 切线斜率 → □ 导数　□ 积分",
+            "• 曲线下面积 → □ 导数　□ 积分",
+            "• 瞬时速度 → □ 导数　□ 积分",
+            "• 原函数 → □ 导数　□ 积分"
+          ],
+          "speaker_notes": "发放手卡，倒计时2分钟；巡视时记录典型错误；回收后立即公布答案并解析（如‘原函数’是积分的结果，不是积分本身）。",
+          "suggested_images": [
+            "互动答题界面截图",
+            "正确连线高亮动画"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "activity",
+          "title": "小组建模任务：细菌增长",
+          "bullet_points": [
+            "已知：N(t) = 100e^{0.2t}（单位：千个）",
+            "① 求瞬时增长率N'(t)",
+            "② 解释∫₀³ N'(t)dt 的意义，并计算",
+            "提示：利用FTC，∫ₐᵇ f'(t)dt = f(b)−f(a)"
+          ],
+          "speaker_notes": "提供计算器；强调N'(t)需用链式法则（虽未正式学，但可提示e^{kt}导数为ke^{kt}）；预期答案：N'(t)=20e^{0.2t}；∫₀³= N(3)−N(0)≈82.2千个。",
+          "suggested_images": [
+            "细菌显微图像",
+            "N(t)与N'(t)双曲线对比图"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 10,
+          "slide_type": "summary",
+          "title": "本课核心图谱",
+          "bullet_points": [
+            "导数：局部变化率 ⇄ 几何：切线斜率",
+            "积分：全局累积量 ⇄ 几何：曲线下面积",
+            "FTC：二者互逆 ⇄ ‘变化率’与‘累积量’一体两面",
+            "应用铁三角：建模→微分/积分→解释"
+          ],
+          "speaker_notes": "用思维导图形式呈现；指明每个概念对应的现实问题（速度、增长率、面积、总量），强化‘数学即建模工具’认知。",
+          "suggested_images": [
+            "中心为‘微积分’的辐射状思维导图",
+            "现实问题图标环绕"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 11,
+          "slide_type": "summary",
+          "title": "常见误区警示",
+          "bullet_points": [
+            "× 导数计算漏写极限符号（lim）→ √ 定义即含极限",
+            "× 积分忘写+C → √ C代表初始状态，无C则解不唯一",
+            "× 混淆∫f'(x)dx 与 d/dx ∫f(x)dx → √ 前者=F(x)+C，后者=f(x)"
+          ],
+          "speaker_notes": "每条配简例：如∫2x dx=x²（错）vs x²+C（对）；强调符号规范即思维严谨。",
+          "suggested_images": [
+            "红叉错误示例 vs 绿勾正确示例对比"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 12,
+          "slide_type": "cover",
+          "title": "下节预告 & 思考题",
+          "bullet_points": [
+            "链式法则：如何对复合函数求导？",
+            "换元积分：如何处理∫2x·cos(x²)dx？",
+            "思考：s''(t)（位移的二阶导数）是什么物理量？它如何影响车辆运动？"
+          ],
+          "speaker_notes": "结束语：‘微积分不是终点，而是你理解动态世界的全新语法。下次课，我们将升级这套语法，让它能解析更复杂的现实。’ 分发作业单。",
+          "suggested_images": [
+            "齿轮咬合动画象征知识衔接",
+            "汽车加速/转弯实景照片"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果一个函数在某点不可导（如|x|在x=0），它的图像可能有什么特征？这对物理模型意味着什么？（如瞬时转向）",
+      "为什么∫₀¹ x² dx 的结果是一个确定的数，而∫x² dx 却带+C？两者本质区别是什么？",
+      "假设某天气温T(h)随小时h变化，∫₆¹₈ T(h) dh 有物理意义吗？如果有，是什么？单位是什么？"
+    ],
+    "homework": "1. 计算：f(x)=5x³−2x+4 的导数，并求f'(1)；2. 计算：∫(3x²−4x+1)dx；3. 一质点沿直线运动，加速度a(t)=6t（m/s²），初速度v(0)=2 m/s，初始位置s(0)=0。求：① 速度函数v(t)；② 位移函数s(t)；③ 前2秒内的总位移。【提示：a(t)=v'(t), v(t)=s'(t)】"
+  }
+}

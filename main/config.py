@@ -78,6 +78,12 @@ class Config:
     
     def get_openai_config(self) -> Dict[str, Any]:
         """获取 OpenAI 配置"""
+        import os
+        # 禁用系统代理设置，以避免与ChatOpenAI不兼容的代理scheme
+        for proxy_var in ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy', 'ALL_PROXY', 'all_proxy']:
+            if proxy_var in os.environ:
+                del os.environ[proxy_var]
+
         return {
             'api_base': self.get('openai.api_base'),
             'api_key': self.get('openai.api_key'),

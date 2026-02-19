@@ -1,0 +1,440 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-02-06T17:45:06.190208",
+    "export_id": "2e676df9-b971-4c6b-b2eb-98024da0d739",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "人体的‘生命之河’——认识血液循环系统",
+      "learning_objectives": [
+        "能准确指出心脏、动脉、静脉、毛细血管和血液在人体中的位置与基本形态",
+        "能用‘水泵’类比解释心脏如何推动血液流动，并描述其收缩与舒张的节奏感",
+        "能区分体循环（心→身体→心）和肺循环（心→肺→心）两条路径，用简单箭头图示表达",
+        "能说出血液中红细胞的主要作用是‘运氧气’，初步理解血管类型与功能的对应关系（动脉运出、静脉运回、毛细血管交换）",
+        "能举例说明心脏、血管、血液协同工作，共同维持生命（如运动时心跳加快、脸变红）"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "PPT课件（含动态血流动画、分步循环路径图、心脏结构简图）",
+        "透明软管+红色/蓝色水（模拟动脉血/静脉血）、小气球（模拟心脏泵动）——课堂演示教具",
+        "学生用‘血液循环手绘卡’（A5双面：正面填空式结构图+背面循环路径连线题）",
+        "心跳计时器APP或秒表（用于1分钟脉搏体验活动）",
+        "彩色贴纸（红/蓝/粉）和磁性人体轮廓图（板书辅助）"
+      ],
+      "introduction": "同学们，你们有没有注意过——跑步后心跳咚咚响、手指被扎破会流出红色的液体、冬天耳朵冻得发红？这些现象背后，藏着一条看不见却永不停歇的‘生命之河’！今天，我们就一起潜入身体内部，探访这条由心脏当船长、血管当河道、血液当货船的奇妙运输系统。它不运送货物，而是运送氧气、养料和‘垃圾’，让每个细胞都能呼吸、吃饭、工作——没有它，生命就会暂停。准备好了吗？让我们从胸口那个‘咚咚’跳动的小机器开始出发！",
+      "main_content": [
+        {
+          "section_title": "一、心脏：身体里的超级水泵",
+          "content": "用气球+软管演示：挤压气球（心脏收缩）→水（血液）被推出；松开气球（舒张）→水被吸回。强调心脏不是‘一直用力’，而是‘一挤一松’有节奏地工作（类比手握拳-松开）。展示简化心脏图（四腔室不展开，只标‘左心’‘右心’和‘瓣膜像单向门’），说明左心负责体循环、右心负责肺循环。播放0:15秒心跳音效+同步动画：血液随‘咚—哒’声被泵出。",
+          "key_points": [
+            "心脏位于胸腔中部偏左，拳头大小，像一个有弹性的肌肉泵",
+            "每次‘咚’（收缩）把血液推出，‘哒’（舒张）让血液流回，每分钟约60–100次",
+            "心脏有‘单向阀门’（瓣膜），保证血液不倒流——就像地铁闸机只进不出"
+          ],
+          "notes": "避免提及左右心房心室专业术语；用‘左心管全身，右心管肺’建立初步分区概念；提醒学生摸自己手腕或颈部感受脉搏即心跳的‘波浪’传递。"
+        },
+        {
+          "section_title": "二、血管三兄弟：动脉、静脉、毛细血管",
+          "content": "对比三类血管：① 动脉——厚壁、弹性好、离开心脏（红血）、分支越来越细；② 静脉——薄壁、有瓣膜防倒流、返回心脏（蓝血）、汇合越来越粗；③ 毛细血管——最细（头发丝1/10粗）、遍布全身、红蓝血在此‘换货’（氧+养料↔二氧化碳+废物）。用‘高速公路（动脉）→社区小路（毛细血管）→返程高速（静脉）’类比。强调：只有毛细血管能进行物质交换——像快递员把氧气‘卸货’给细胞，再把二氧化碳‘收件’带走。",
+          "key_points": [
+            "动脉：运血‘离开心脏’，多为鲜红色（含氧多），管壁厚、弹性强",
+            "静脉：运血‘返回心脏’，多为暗红色（含氧少），管壁薄、有瓣膜",
+            "毛细血管：连接动静脉的‘微米级通道’，是氧气、养料、废物交换的唯一场所"
+          ],
+          "notes": "用红蓝水在软管中流动演示动脉（出）/静脉（回）方向；强调‘颜色差异源于含氧量，非血管本身颜色’；避免深入血压、血流速等抽象概念。"
+        },
+        {
+          "section_title": "三、血液：生命的红色快递队",
+          "content": "血液不是‘纯红水’，而是‘悬浮液’：血浆（淡黄色液体，运营养/激素）+ 血细胞。聚焦红细胞：双凹圆盘状（像小甜甜圈），含血红蛋白（遇氧变红），专程运送氧气。用‘快递车’比喻：红细胞是车，血红蛋白是车厢，氧气是货物。白细胞（免疫卫士）和血小板（止血贴布）仅一句话带过，不展开。强调：血液必须流动才能送货——静止=缺氧=细胞停工。",
+          "key_points": [
+            "血液由血浆和血细胞组成，红细胞负责运输氧气",
+            "红细胞含血红蛋白，结合氧气时呈鲜红色（动脉血），释放后呈暗红色（静脉血）",
+            "血液必须持续流动，才能完成‘送货（氧/养料）’和‘收废（CO₂/废物）’任务"
+          ],
+          "notes": "不提白细胞种类、凝血机制；用‘受伤流血变暗→结痂变红’生活现象印证含氧变化；强调‘流动’是功能前提。"
+        },
+        {
+          "section_title": "四、血液循环：两条闭环‘生命环’",
+          "content": "用双色磁贴在人体轮廓图上演示：① 体循环（红贴纸）：左心→动脉→全身毛细血管（放氧收CO₂）→静脉→右心；② 肺循环（蓝贴纸）：右心→肺动脉→肺毛细血管（放CO₂收氧）→肺静脉→左心。强调‘闭环’：没有起点终点，只有连续运转。总结口诀：‘左心射血走全身，右心射血去肺边；全身回来进右心，肺里回来进左心’。播放30秒双循环同步动画（标注‘体’‘肺’字样及箭头）。",
+          "key_points": [
+            "血液循环是两个首尾相接的环：体循环（心→身→心）和肺循环（心→肺→心）",
+            "体循环输送氧气到全身，回收二氧化碳；肺循环在肺部交换气体，补充氧气、排出二氧化碳",
+            "两循环通过心脏‘左右分区’衔接，形成完整生命支持系统"
+          ],
+          "notes": "严格使用‘左心→全身→右心→肺→左心’逻辑链；禁用‘大循环/小循环’等术语；动画需清晰显示血液颜色在肺部由蓝变红、在全身由红变蓝。"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "脉搏小侦探",
+          "description": "学生两两一组，用食指和中指轻按同伴手腕桡动脉或颈部颈动脉，用秒表计时15秒，乘以4得出每分钟心跳数；静坐1分钟后原地踏步30秒，再测15秒脉搏。记录前后变化。",
+          "duration_minutes": 5,
+          "instructions": [
+            "轻轻按压，不要用力掐",
+            "计时开始前先找到稳定跳动点",
+            "对比运动前后数据，思考：为什么心跳加快了？"
+          ]
+        },
+        {
+          "activity_name": "循环路径拼图赛",
+          "description": "发放‘血液循环手绘卡’，学生用红蓝铅笔按提示完成：① 在人体简图中标出心脏位置并涂红；② 用红箭头画体循环路径（左心→手臂→右心）；③ 用蓝箭头画肺循环路径（右心→肺→左心）；④ 连线匹配：动脉/静脉/毛细血管→功能短句。",
+          "duration_minutes": 8,
+          "instructions": [
+            "箭头必须从心脏出发/回到心脏",
+            "红箭头只出现在体循环‘出’段和肺循环‘回’段",
+            "蓝箭头只出现在体循环‘回’段和肺循环‘出’段"
+          ]
+        }
+      ],
+      "assessment": "【形成性】提问穿插：‘如果动脉破了，血是喷出来还是渗出来？为什么？’（考查动脉高压特性）；‘肺泡里的氧气，坐哪趟‘血液班车’去肌肉？’（考查肺循环→体循环衔接）。【总结性】手绘卡当堂回收批阅，重点关注：心脏定位准确性、红/蓝箭头方向正确率、血管功能匹配正确率（≥4/5为达标）。课后发放‘家庭小任务卡’：观察家人煮红苋菜时汤变红，思考‘植物汁液像血液一样运输物质吗？’（渗透跨学科联系）。",
+      "closure": "今天我们揭开了人体‘生命之河’的秘密：心脏是不知疲倦的水泵，血管是四通八达的河道，血液是穿梭不息的红色快递队——它们分工又合作，让每一颗细胞都喝上氧、吃上粮。下节课，我们将走进‘呼吸工厂’肺，看看氧气是怎么登上血液快车的！请记住：爱护心脏，就是守护这条永不干涸的生命之河——少喝碳酸饮料、每天运动20分钟、保持好心情，你的心泵就能健康跳动80年！"
+    },
+    "ppt_outline": {
+      "total_slides": 12,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "人体的‘生命之河’\n——认识血液循环系统",
+          "bullet_points": [
+            "小学科学 · 生命世界模块",
+            "适合5–6年级 · 45分钟"
+          ],
+          "speaker_notes": "封面用动态水流环绕心脏的简约插画；背景音效：轻柔心跳声渐入。问候语后提问：‘猜猜我们身体里，每秒钟有多少升血液在奔跑？——答案是：约1升！’引发惊叹。",
+          "suggested_images": [
+            "卡通风格心脏被发光蓝色河流环绕",
+            "小学生好奇触摸胸口的特写照片"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "第一站：心脏——身体里的超级水泵",
+          "bullet_points": [
+            "它在哪？——胸腔中部偏左，拳头大小",
+            "它怎么工作？——‘咚’（挤）送血出去，‘哒’（松）吸血回来",
+            "它有多努力？——每天跳动约10万次！"
+          ],
+          "speaker_notes": "点击播放0.5秒‘咚—哒’音效；同步动画：心脏模型缩放+红蓝箭头进出。强调‘肌肉泵’属性——不是机械，是活生生的器官。",
+          "suggested_images": [
+            "儿童胸腔X光简图标注心脏位置",
+            "气球挤压喷水GIF动图"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "心脏的‘单向门’：瓣膜",
+          "bullet_points": [
+            "像地铁闸机，只让血往前走，不许倒流",
+            "没有瓣膜？血液会‘打滑’，心脏白干活！"
+          ],
+          "speaker_notes": "展示心脏剖面简图（仅标左右心+瓣膜图标）；类比：‘如果电梯门坏了，人挤进去又滑出来——瓣膜就是保证每一次挤压都不浪费！’",
+          "suggested_images": [
+            "心脏瓣膜开闭示意图（卡通化）",
+            "地铁闸机与心脏瓣膜并列对比图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "section",
+          "title": "第二站：血管三兄弟",
+          "bullet_points": [
+            "动脉：送血出门的‘高速路’（厚壁、鲜红、离开心脏）",
+            "静脉：接血回家的‘返程道’（薄壁、暗红、返回心脏）",
+            "毛细血管：送货上门的‘最后一米’（极细、全身密布、交换站）"
+          ],
+          "speaker_notes": "切换三栏布局；每栏配1个核心图标（动脉=红色闪电箭头，静脉=蓝色回旋箭头，毛细血管=显微镜下网状结构）。预告：‘接下来，我们看它们怎么接力送货！’",
+          "suggested_images": [
+            "动脉/静脉/毛细血管横截面对比显微图（简化着色）",
+            "高速公路-社区小路-快递员送货漫画"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "content",
+          "title": "为什么动脉血红、静脉血暗？",
+          "bullet_points": [
+            "红细胞车厢里装满氧气 → 鲜红色（动脉）",
+            "红细胞卸完氧气 → 暗红色（静脉）",
+            "颜色变化发生在肺和全身组织！"
+          ],
+          "speaker_notes": "动画演示：红细胞进入肺→‘装货’（变红）→进入肌肉→‘卸货’（变暗）。强调‘颜色是氧气的晴雨表’，非血管本身。",
+          "suggested_images": [
+            "红细胞携氧/释氧过程动画帧",
+            "动脉血（鲜红）与静脉血（暗红）试管对比照"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "section",
+          "title": "第三站：血液——红色快递队",
+          "bullet_points": [
+            "血浆：淡黄‘运输液’（运营养、激素）",
+            "红细胞：双凹圆盘‘氧气专车’（含血红蛋白）",
+            "白细胞：‘免疫警察’；血小板：‘止血创可贴’"
+          ],
+          "speaker_notes": "用快递公司组织架构类比：血浆=物流系统，红细胞=运输车队，白细胞=安保部，血小板=应急维修组。重点讲红细胞：‘没有细胞核，腾出更多空间装氧气！’",
+          "suggested_images": [
+            "血液成分比例饼图（红细胞占99%）",
+            "红细胞扫描电镜图（突出双凹形）"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "content",
+          "title": "血液必须流动！否则…",
+          "bullet_points": [
+            "静止10秒 → 大脑缺氧 → 眩晕",
+            "静止3分钟 → 细胞开始死亡",
+            "所以：心脏不能停，血管不能堵！"
+          ],
+          "speaker_notes": "插入1秒黑屏+‘滴…’长音效模拟监护仪平直线；立即切回跳动心脏动画。强化‘流动即生命’观念。",
+          "suggested_images": [
+            "脑细胞缺氧示意图（卡通化）",
+            "堵塞血管与畅通血管对比简图"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "section",
+          "title": "第四站：两条生命环",
+          "bullet_points": [
+            "体循环：左心 → 全身 → 右心（送氧，收CO₂）",
+            "肺循环：右心 → 肺 → 左心（收氧，排CO₂）",
+            "它们手拉手，组成永不停歇的‘∞’字环！"
+          ],
+          "speaker_notes": "启动双色循环动画：红色环（体循环）与蓝色环（肺循环）同步旋转，交汇于心脏。强调‘左心只管体循环，右心只管肺循环’。",
+          "suggested_images": [
+            "人体轮廓图上叠加红蓝双环动画截图",
+            "∞符号内嵌心脏与肺的创意设计图"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "activity",
+          "title": "动手做：循环路径拼图赛",
+          "bullet_points": [
+            "任务1：标心脏，涂红色",
+            "任务2：红箭头画体循环（左心→手→右心）",
+            "任务3：蓝箭头画肺循环（右心→肺→左心）",
+            "任务4：连线匹配血管与功能"
+          ],
+          "speaker_notes": "分发手绘卡；教师巡视，重点指导箭头方向与起止点。提示：‘所有箭头必须从心脏出发，或回到心脏！’",
+          "suggested_images": [
+            "手绘卡样图（空白版）",
+            "学生正确作答范例局部"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 10,
+          "slide_type": "content",
+          "title": "生活中的循环证据",
+          "bullet_points": [
+            "运动后脸红、心跳快 → 体循环加速送氧",
+            "爬高山喘气 → 肺循环加紧补氧",
+            "伤口流血不止 → 静脉瓣膜失效？（引申思考）"
+          ],
+          "speaker_notes": "用真实场景巩固概念：‘为什么运动员要深呼吸？因为肺循环要更快装满氧气，体循环才能更快送到肌肉！’",
+          "suggested_images": [
+            "儿童跑步后脸红出汗照片",
+            "高原登山者深呼吸特写"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 11,
+          "slide_type": "summary",
+          "title": "本课核心地图",
+          "bullet_points": [
+            "❤️ 心脏 = 水泵（收缩送血，舒张回血）",
+            "🩸 血管 = 三通道（动脉出、静脉回、毛细血管换）",
+            "🔴 血液 = 快递队（红细胞运氧是关键）",
+            "🔄 循环 = 双闭环（体环供能，肺环换气）",
+            "🤝 协同 = 生命基石（缺一不可！）"
+          ],
+          "speaker_notes": "逐条点亮关键词；最后聚光灯效果落在‘🤝 协同’上。提问：‘如果肺生病了，心脏和血液会怎样？’引导系统观。",
+          "suggested_images": [
+            "五要素环绕心脏的思维导图",
+            "儿童手拉手围成圆圈象征协作"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 12,
+          "slide_type": "cover",
+          "title": "延伸思考 · 家庭小任务",
+          "bullet_points": [
+            "观察：煮红苋菜，汤为什么变红？",
+            "联想：植物也有‘血液循环’吗？",
+            "行动：本周每天跳绳3分钟，听听你的心泵有多棒！"
+          ],
+          "speaker_notes": "结束语：‘科学不在远方，就在你跳动的胸口、流淌的血液、每一次呼吸里。保护它，就是保护独一无二的你！’播放渐弱心跳音效。",
+          "suggested_images": [
+            "红苋菜汤特写",
+            "儿童跳绳笑脸照片"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "dark_blue_gray",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果把心脏比作教室里的某个东西，它最像什么？为什么？",
+      "动脉破了血会喷出来，静脉破了血慢慢渗——这说明它们的‘压力’有什么不同？",
+      "毛细血管那么细，红细胞怎么通过？（提示：红细胞很柔软，能变形！）",
+      "为什么游泳时憋气，很快就想呼吸？（联系肺循环缺氧）",
+      "有人说‘血管越粗，运血越多’，对吗？（引出毛细血管总横截面积最大）"
+    ],
+    "homework": "完成‘血液循环手绘卡’未尽部分；采访一位家人：‘您知道自己的心跳大约是多少次/分钟吗？’记录并思考：年龄、运动习惯会影响心跳吗？（下节课分享）"
+  }
+}
