@@ -398,50 +398,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label>学生年级 *</label>
-                        <select id="teaching-level">
-                            <option value="">请选择</option>
-                            <option value="小学">小学</option>
-                            <option value="初中">初中</option>
-                            <option value="高中">高中</option>
-                            <option value="大学">大学</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>学科领域 *</label>
-                        <select id="teaching-subject">
-                            <option value="">请选择</option>
-                            <option value="数学">数学</option>
-                            <option value="语文">语文</option>
-                            <option value="英语">英语</option>
-                            <option value="物理">物理</option>
-                            <option value="化学">化学</option>
-                            <option value="生物">生物</option>
-                            <option value="历史">历史</option>
-                            <option value="地理">地理</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>课程时长（分钟）</label>
-                        <input type="number" id="teaching-duration" placeholder="45" value="45">
-                    </div>
-
-                    <div class="form-group">
-                        <label>学习目标</label>
+                        <label>学习目标 *</label>
                         <textarea id="teaching-objectives" placeholder="列举学生应该达成的3-5个学习目标"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>教学方法</label>
-                        <select id="teaching-approach">
-                            <option value="讲授法">讲授法</option>
-                            <option value="讨论法">讨论法</option>
-                            <option value="实践法">实践法</option>
-                            <option value="互动式">互动式</option>
-                        </select>
+                        <label>上传素材（图片/文档）</label>
+                        <input type="file" id="teaching-materials" multiple accept=".pdf,.txt,.md,.docx,.png,.jpg,.jpeg,.gif,.bmp">
+                        <p style="font-size: 12px; color: #666; margin-top: 6px;">支持 PDF、Word、文本、Markdown、常见图片格式</p>
                     </div>
 
                     <div class="form-group">
@@ -498,14 +462,12 @@
 
         async function generateLesson() {
             const theme = document.getElementById('teaching-theme').value;
-            const level = document.getElementById('teaching-level').value;
-            const subject = document.getElementById('teaching-subject').value;
-            const duration = document.getElementById('teaching-duration').value;
             const objectives = document.getElementById('teaching-objectives').value;
-            const approach = document.getElementById('teaching-approach').value;
+            const materialsInput = document.getElementById('teaching-materials');
+            const materials = materialsInput.files || [];
 
-            if (!theme || !level || !subject) {
-                alert('请填写必填项：教学主题、学生年级、学科领域');
+            if (!theme || !objectives) {
+                alert('请填写必填项：教学主题、学习目标');
                 return;
             }
 
@@ -514,28 +476,25 @@
 
             const userInput = `
 教学主题：${theme}
-学生年级：${level}
-学科领域：${subject}
-课程时长：${duration}分钟
 学习目标：${objectives}
-教学方法：${approach}
 PPT风格：${selectedTemplate}
             `;
 
-            try {
-                console.log('Sending request to /send_message with input:', userInput);
+            const formData = new FormData();
+            formData.append('message', userInput);
+            formData.append('mode', 'teaching');
+            formData.append('user_id', 'teacher_' + Date.now());
+            formData.append('task_id', 'lesson_' + Date.now());
+            Array.from(materials).forEach(file => {
+                formData.append('files', file);
+            });
 
-                const response = await fetch('/send_message', {
+            try {
+                console.log('Sending request to /send_message_with_files with input:', userInput);
+
+                const response = await fetch('/send_message_with_files', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: userInput,
-                        mode: 'teaching',
-                        user_id: 'teacher_' + Date.now(),
-                        task_id: 'lesson_' + Date.now()
-                    })
+                    body: formData
                 });
 
                 console.log('Response received:', response.status);

@@ -3,7 +3,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from main.config import get_openai_config
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 import json
 
 class IntentParserAgent:
@@ -24,16 +24,15 @@ Your task is to analyze the user's teaching requirements and extract the followi
 
 1. **Teaching Theme**: The main topic or subject to teach
 2. **Teaching Objectives**: What students should be able to do/know after the lesson (3-5 learning outcomes)
-3. **Audience Level**: Grade level or age group (e.g., Elementary/Middle/High School, Age 10-12)
-4. **Subject Area**: Academic discipline (e.g., Math, Science, History, Literature, etc.)
-5. **Duration**: Estimated teaching duration (e.g., 45 minutes, 2 hours)
+3. **Audience Level**: Grade level or age group (optional if not provided)
+4. **Subject Area**: Academic discipline (optional if not provided)
+5. **Duration**: Estimated teaching duration in minutes (optional; default to 45)
 6. **Key Concepts**: Main concepts to cover (3-5 core ideas)
-7. **Teaching Approach**: Preferred methodology (e.g., Lecture, Discussion, Hands-on, Interactive)
+7. **Teaching Approach**: Preferred methodology (optional; default to Interactive)
 8. **Prerequisites**: What students should already know
 9. **Additional Context**: Any special requirements or constraints
 
-When analyzing, be thorough and extract as much detail as possible from the user input.
-If information is missing, make reasonable assumptions based on the context and ask clarifying questions if needed.
+If information is missing, make reasonable assumptions based on the context without asking follow-up questions.
 
 Always respond with valid JSON format with these exact keys:
 {
@@ -116,7 +115,7 @@ Always respond with valid JSON format with these exact keys:
         Returns:
             Boolean indicating if intent is valid
         """
-        required_fields = ['theme', 'objectives', 'audience_level', 'subject_area']
+        required_fields = ['theme', 'objectives']
         return all(field in intent_data and intent_data[field] for field in required_fields)
 
 

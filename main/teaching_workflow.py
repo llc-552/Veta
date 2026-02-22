@@ -5,8 +5,6 @@ import json
 import logging
 from typing import Dict, Any, Optional, List
 from langgraph.graph import StateGraph, START, END
-from langchain_openai import ChatOpenAI
-from main.config import get_openai_config
 from main.teaching_agents.intent_parser_agent import IntentParserAgent
 from main.teaching_agents.multimodal_retriever_agent import MultimodalRetrieverAgent
 from main.teaching_agents.content_generator_agent import ContentGeneratorAgent
@@ -135,6 +133,11 @@ class TeachingWorkflow:
 
         try:
             intent_data = state.get("intent_data", {})
+            uploaded_files = state.get("uploaded_files", [])
+            if uploaded_files:
+                logger.info("Uploaded materials detected (%d). Refreshing retriever.", len(uploaded_files))
+                self.retriever.refresh_retriever()
+
             logger.info(f"Calling MultimodalRetrieverAgent with intent: {intent_data.get('theme', 'Unknown')}")
 
             materials = await self.retriever.retrieve_materials(intent_data)
@@ -285,12 +288,13 @@ class TeachingWorkflow:
 
         return state
 
-    async def run(self, user_input: str) -> Dict[str, Any]:
+    async def run(self, user_input: str, uploaded_files: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Run the complete teaching workflow
 
         Args:
             user_input: User's teaching requirement
+            uploaded_files: Optional list of uploaded file paths
 
         Returns:
             Final state with all generated outputs
@@ -305,7 +309,8 @@ class TeachingWorkflow:
             "generated_content": {},
             "template_selection": {},
             "layouted_slides": [],
-            "export_result": {}
+            "export_result": {},
+            "uploaded_files": uploaded_files or []
         }
 
         try:

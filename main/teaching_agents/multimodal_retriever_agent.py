@@ -38,6 +38,13 @@ class MultimodalRetrieverAgent:
             logger.warning("System will operate with degraded RAG capabilities")
             self.retriever_initialized = False
 
+    def refresh_retriever(self, rag_folder: Optional[str] = None) -> None:
+        """Rebuild the retriever to include newly uploaded materials."""
+        if rag_folder:
+            self.rag_folder = rag_folder
+        logger.info("Refreshing MultimodalRetriever with folder: %s", self.rag_folder)
+        self._init_retriever()
+
     async def retrieve_materials(
         self,
         intent_data: Dict[str, Any],

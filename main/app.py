@@ -2,11 +2,12 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi import UploadFile, File, Form
 from pydantic import BaseModel
 import asyncio
 import uuid
 import json
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 from main.teaching_workflow import TeachingWorkflow  # 智能教案与PPT生成系统
 
 # -------------------------------
@@ -118,19 +119,7 @@ async def send_message(req: MessageRequest):
         print(f"Result status: {result.get('status')}")
         print(f"Result error: {result.get('error')}")
 
-        # 构造响应
-        response_msg = "✅ 教学材料已成功生成！" if result.get('status') == 'completed' else "❌ 教学材料生成出现问题"
-
         print("📌 Step 3: Building response...")
-        response_data = {
-            "response": response_msg,
-            "status": result.get("status", "unknown"),
-            "processing_step": result.get("processing_step", ""),
-            "export_result": result.get("export_result", {}),
-            "error": result.get("error"),
-            "awaiting_input": False,
-            "ended": result.get("status") == "completed"
-        }
         print("✅ Response built successfully")
 
         print("=" * 70)
@@ -138,7 +127,7 @@ async def send_message(req: MessageRequest):
         print("=" * 70)
         print("")
 
-        return JSONResponse(content=response_data)
+        return _build_response(result)
     except Exception as e:
         import traceback
         print(f"❌ Error in send_message: {str(e)}")
@@ -269,3 +258,83 @@ async def reset(request: Request):
 
     print(f"[系统]: TeachingWorkflow 会话已重置")
     return {"status": "ok", "mode": "teaching"}
+
+def _build_response(result: Dict) -> JSONResponse:
+    response_msg = "✅ 教学材料已成功生成！" if result.get('status') == 'completed' else "❌ 教学材料生成出现问题"
+    response_data = {
+        "response": response_msg,
+        "status": result.get("status", "unknown"),
+        "processing_step": result.get("processing_step", ""),
+        "export_result": result.get("export_result", {}),
+        "error": result.get("error"),
+        "awaiting_input": False,
+        "ended": result.get("status") == "completed"
+    }
+    return JSONResponse(content=response_data)
+
+
+def _save_uploaded_files(files: List[UploadFile], task_id: str) -> list:
+    rag_folder = os.path.join(base_dir, "rag_data")
+    os.makedirs(rag_folder, exist_ok=True)
+
+    allowed_exts = {".pdf", ".txt", ".md", ".docx", ".png", ".jpg", ".jpeg", ".gif", ".bmp"}
+    saved_paths = []
+    for file in files:
+        filename = file.filename or ""
+        _, ext = os.path.splitext(filename)
+        ext = ext.lower()
+        if ext not in allowed_exts:
+            print(f"⚠️  Skipping unsupported upload: {filename}")
+            continue
+
+        safe_name = f"{task_id}_{uuid.uuid4().hex}{ext}"
+        save_path = os.path.join(rag_folder, safe_name)
+        with open(save_path, "wb") as f:
+            f.write(file.file.read())
+        saved_paths.append(save_path)
+
+    return saved_paths
+
+@app.post("/send_message_with_files")
+async def send_message_with_files(
+    message: str = Form(...),
+    mode: str = Form("teaching"),
+    user_id: Optional[str] = Form(None),
+    task_id: Optional[str] = Form(None),
+    files: List[UploadFile] = File(default=[])
+):
+    user_input = message
+    actual_task_id = task_id or f"lesson_{uuid.uuid4().hex[:8]}"
+
+    print("")
+    print("=" * 70)
+    print("📨 New Message Received (with files)")
+    print("=" * 70)
+    print(f"User ID: {user_id}")
+    print(f"Task ID: {actual_task_id}")
+    print(f"Mode: {mode}")
+    print(f"Message preview: {user_input[:100]}...")
+    print(f"Uploaded files: {len(files)}")
+    print("=" * 70)
+
+    try:
+        saved_files = _save_uploaded_files(files, actual_task_id)
+        teaching_workflow = get_or_create_teaching_workflow(user_id, actual_task_id)
+        result = await teaching_workflow.run(user_input, uploaded_files=saved_files)
+        return _build_response(result)
+    except Exception as e:
+        import traceback
+        print(f"❌ Error in send_message_with_files: {str(e)}")
+        print(traceback.format_exc())
+        print("=" * 70)
+        return JSONResponse(
+            content={
+                "error": f"Teaching workflow error: {str(e)}",
+                "response": "❌ 发生错误",
+                "status": "error",
+                "processing_step": "工作流执行失败",
+                "awaiting_input": False,
+                "ended": False
+            },
+            status_code=500
+        )
