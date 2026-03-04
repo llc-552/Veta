@@ -143,6 +143,15 @@ class TeachingWorkflow:
             materials = await self.retriever.retrieve_materials(intent_data)
             logger.info(f"Materials retrieved: {len(materials.get('text_materials', []))} text materials, {len(materials.get('image_materials', []))} image materials")
 
+            # Build semantic image index from uploaded files
+            if uploaded_files:
+                logger.info("Building semantic image index from %d uploaded files...", len(uploaded_files))
+                indexed_images = await self.retriever.build_image_index_from_uploads(uploaded_files)
+                state["indexed_images"] = indexed_images
+                logger.info(f"✅ Indexed {len(indexed_images)} uploaded images")
+            else:
+                state["indexed_images"] = []
+
             state["retrieved_materials"] = materials
             state["processing_step"] = f"Retrieved materials for {len(materials.get('text_materials', []))} concepts"
             logger.info(f"✅ Materials retrieved successfully")
@@ -163,6 +172,7 @@ class TeachingWorkflow:
         try:
             intent_data = state.get("intent_data", {})
             materials = state.get("retrieved_materials", {})
+            indexed_images = state.get("indexed_images", [])
             logger.info(f"Calling ContentGeneratorAgent for: {intent_data.get('theme', 'Unknown')}")
 
             # Extract text materials for content generation
@@ -170,7 +180,8 @@ class TeachingWorkflow:
 
             content = await self.content_generator.generate_content(
                 intent_data,
-                retrieved_materials=text_materials
+                retrieved_materials=text_materials,
+                indexed_images=indexed_images
             )
 
             num_slides = len(content.get('ppt_outline', {}).get('slides', []))
@@ -259,6 +270,7 @@ class TeachingWorkflow:
             ppt_data = state.get("generated_content", {})
             template_selection = state.get("template_selection", {})
             template_id = template_selection.get("recommended_template", {}).get("id", "default_formal")
+            indexed_images = state.get("indexed_images", [])
 
             intent_data = state.get("intent_data", {})
             lesson_title = intent_data.get("theme", "Lesson Plan")
@@ -270,7 +282,8 @@ class TeachingWorkflow:
                 lesson_data,
                 ppt_data,
                 template_id,
-                lesson_title
+                lesson_title,
+                indexed_images=indexed_images
             )
 
             state["export_result"] = export_result
@@ -310,7 +323,8 @@ class TeachingWorkflow:
             "template_selection": {},
             "layouted_slides": [],
             "export_result": {},
-            "uploaded_files": uploaded_files or []
+            "uploaded_files": uploaded_files or [],
+            "indexed_images": []
         }
 
         try:

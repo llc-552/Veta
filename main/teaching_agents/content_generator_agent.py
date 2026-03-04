@@ -87,7 +87,8 @@ Output should be in valid JSON format with the following structure:
     async def generate_content(
         self,
         intent_data: Dict[str, Any],
-        retrieved_materials: Optional[List[str]] = None
+        retrieved_materials: Optional[List[str]] = None,
+        indexed_images: Optional[List[Dict[str, Any]]] = None
     ) -> Dict[str, Any]:
         """
         Generate lesson plan content and PPT outline
@@ -95,6 +96,7 @@ Output should be in valid JSON format with the following structure:
         Args:
             intent_data: Parsed teaching intent from IntentParserAgent
             retrieved_materials: List of retrieved educational materials
+            indexed_images: List of {path, filename, description} dicts for uploaded images
 
         Returns:
             Dictionary containing lesson plan and PPT outline
@@ -104,6 +106,21 @@ Output should be in valid JSON format with the following structure:
             materials_text = ""
             if retrieved_materials:
                 materials_text = f"\n\nRetrieved Educational Materials:\n" + "\n---\n".join(retrieved_materials)
+
+            # Build image catalogue section
+            image_catalogue_text = ""
+            if indexed_images:
+                image_entries = []
+                for idx, img in enumerate(indexed_images):
+                    image_entries.append(
+                        f"  [{idx}] filename={img['filename']} | description={img['description']}"
+                    )
+                image_catalogue_text = (
+                    "\n\nAvailable Uploaded Teaching Images (use their filename values in suggested_images):\n"
+                    + "\n".join(image_entries)
+                    + "\n\nImportant: For each slide in the PPT outline, if a relevant image from the catalogue above exists, "
+                    "include its EXACT filename in the 'suggested_images' list so it can be inserted into the slide automatically."
+                )
 
             prompt_content = f"""Based on the following teaching requirements, generate comprehensive lesson plan content and PPT outline:
 
@@ -116,6 +133,7 @@ Key Concepts: {', '.join(intent_data.get('key_concepts', []))}
 Teaching Approach: {intent_data.get('teaching_approach', 'Interactive')}
 Prerequisites: {', '.join(intent_data.get('prerequisites', []))}
 {materials_text}
+{image_catalogue_text}
 
 Please generate detailed, pedagogically sound content that:
 1. Aligns with stated learning objectives
@@ -124,6 +142,7 @@ Please generate detailed, pedagogically sound content that:
 4. Follows the preferred teaching approach
 5. Includes interactive elements and assessments
 6. Provides clear speaker notes for the instructor
+7. For each slide that would benefit from an image, populate 'suggested_images' with the EXACT filename(s) from the Available Uploaded Teaching Images list above (if any relevant images are available).
 """
 
             response = await self.model.ainvoke([

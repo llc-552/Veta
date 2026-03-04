@@ -4,10 +4,8 @@ from typing import Dict, Any, List, Optional
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
-from pptx.dml.color import RGBColor
 from docx import Document
-from docx.shared import Pt, RGBColor as DocRGBColor, Inches as DocInches
-
+from docx.shared import Pt as DocPt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import json
 import os
@@ -90,21 +88,68 @@ class ExportManagerAgent:
                 "files": {}
             }
 
+    def _find_best_image_match(
+        self,
+        query: str,
+        indexed_images: List[Dict[str, Any]]
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Find the most semantically relevant image for a query string.
+        First tries exact filename match, then falls back to keyword overlap
+        against image descriptions.
+
+        Args:
+            query: Search string (image description hint or filename)
+            indexed_images: List of {path, filename, description} dicts
+
+        Returns:
+            Best matching image dict or None
+        """
+        if not indexed_images:
+            return None
+
+        query_lower = query.lower().strip()
+
+        # 1. Exact filename match
+        for img in indexed_images:
+            if img.get("filename", "").lower() == query_lower:
+                return img
+
+        # 2. Filename contains query
+        for img in indexed_images:
+            if query_lower in img.get("filename", "").lower():
+                return img
+
+        # 3. Keyword overlap with description
+        query_words = set(query_lower.replace(",", " ").split())
+        best_img = None
+        best_score = 0
+        for img in indexed_images:
+            desc_words = set(img.get("description", "").lower().split())
+            score = len(query_words & desc_words)
+            if score > best_score:
+                best_score = score
+                best_img = img
+
+        return best_img if best_score > 0 else None
+
     async def export_ppt(
         self,
         ppt_data: Dict[str, Any],
         template_id: str,
         filename_prefix: Optional[str] = None,
-        custom_colors: Optional[Dict[str, str]] = None
+        custom_colors: Optional[Dict[str, str]] = None,
+        indexed_images: Optional[List[Dict[str, Any]]] = None
     ) -> Dict[str, Any]:
         """
-        Export content as PowerPoint presentation
+        Export content as PowerPoint presentation with optional image insertion.
 
         Args:
             ppt_data: PPT outline and content
             template_id: ID of template to use
             filename_prefix: Optional custom filename prefix
             custom_colors: Optional custom color overrides
+            indexed_images: Semantic image index [{path, filename, description}]
 
         Returns:
             Dictionary containing export results
@@ -123,7 +168,10 @@ class ExportManagerAgent:
             slides_data = ppt_data.get('ppt_outline', {}).get('slides', [])
 
             for slide_info in slides_data:
-                self._add_slide_to_presentation(prs, slide_info, custom_colors)
+                slide = self._add_slide_to_presentation(prs, slide_info, custom_colors)
+                # --- Semantic image-text alignment ---
+                if slide is not None and indexed_images:
+                    self._insert_image_into_slide(slide, slide_info, indexed_images)
 
             # Save presentation
             ppt_path = os.path.join(self.ppt_folder, f"{filename_prefix}.pptx")
@@ -144,6 +192,63 @@ class ExportManagerAgent:
             return {
                 "error": f"PPT export error: {str(e)}"
             }
+
+    def _insert_image_into_slide(
+        self,
+        slide,
+        slide_info: Dict[str, Any],
+        indexed_images: List[Dict[str, Any]]
+    ) -> None:
+        """
+        Insert the most semantically relevant image into a slide.
+        The image is placed in the right half of the slide so it doesn't
+        overlap with the text/bullet content on the left.
+
+        Args:
+            slide: python-pptx Slide object
+            slide_info: Slide content dict (may include 'suggested_images')
+            indexed_images: Semantic image index
+        """
+        from pptx.util import Inches as _Inches
+        import os as _os
+
+        # Build a list of candidate queries:
+        # 1. LLM-suggested image filenames/descriptions from the slide
+        # 2. The slide title as a fallback
+        candidate_queries = list(slide_info.get("suggested_images", []))
+        if not candidate_queries:
+            candidate_queries.append(slide_info.get("title", ""))
+        # Add bullet points as additional context for matching
+        for bp in slide_info.get("bullet_points", [])[:3]:
+            candidate_queries.append(bp)
+
+        matched_image = None
+        for query in candidate_queries:
+            if not query:
+                continue
+            matched_image = self._find_best_image_match(query, indexed_images)
+            if matched_image:
+                break
+
+        if matched_image is None:
+            return
+
+        image_path = matched_image.get("path", "")
+        if not _os.path.isfile(image_path):
+            return
+
+        try:
+            # Place image on the right side of the slide
+            # Slide dimensions: 10" x 7.5"
+            # Right panel: left=5.5", top=1.5", width=4", height=5"
+            left = _Inches(5.6)
+            top = _Inches(1.4)
+            width = _Inches(4.0)
+            height = _Inches(5.0)
+            slide.shapes.add_picture(image_path, left, top, width=width, height=height)
+            print(f"  🖼  Inserted image: {matched_image['filename']} into slide '{slide_info.get('title', '')}'")
+        except Exception as e:
+            print(f"  ⚠️  Could not insert image {image_path}: {e}")
 
     async def _export_docx(
         self,
@@ -272,14 +377,10 @@ class ExportManagerAgent:
         prs: Presentation,
         slide_info: Dict[str, Any],
         custom_colors: Optional[Dict[str, str]] = None
-    ) -> None:
+    ):
         """
-        Add a slide to the presentation based on slide info
-
-        Args:
-            prs: Presentation object
-            slide_info: Slide information
-            custom_colors: Optional custom colors
+        Add a slide to the presentation based on slide info.
+        Returns the created Slide object so the caller can insert images.
         """
         slide_type = slide_info.get('slide_type', 'content')
 
@@ -293,6 +394,8 @@ class ExportManagerAgent:
         else:  # content, activity, summary
             slide = prs.slides.add_slide(prs.slide_layouts[5])  # Title only layout
             self._add_content_slide(slide, slide_info)
+
+        return slide
 
     def _add_cover_slide_content(
         self,
@@ -403,7 +506,8 @@ class ExportManagerAgent:
         lesson_data: Dict[str, Any],
         ppt_data: Dict[str, Any],
         template_id: str,
-        lesson_title: str
+        lesson_title: str,
+        indexed_images: Optional[List[Dict[str, Any]]] = None
     ) -> Dict[str, Any]:
         """
         Export complete lesson (both Word document and PPT)
@@ -413,6 +517,7 @@ class ExportManagerAgent:
             ppt_data: PPT outline data
             template_id: Template ID to use
             lesson_title: Title for the lesson
+            indexed_images: Semantic image index [{path, filename, description}]
 
         Returns:
             Dictionary containing all export results
@@ -430,8 +535,11 @@ class ExportManagerAgent:
         lesson_export = await self.export_lesson_plan(lesson_data, "both", filename_prefix)
         results["exports"]["lesson_plan"] = lesson_export
 
-        # Export PPT
-        ppt_export = await self.export_ppt(ppt_data, template_id, filename_prefix)
+        # Export PPT (with image alignment)
+        ppt_export = await self.export_ppt(
+            ppt_data, template_id, filename_prefix,
+            indexed_images=indexed_images
+        )
         results["exports"]["ppt"] = ppt_export
 
         return results

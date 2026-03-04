@@ -1,0 +1,419 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-03-04T16:05:31.913548",
+    "export_id": "fdd477ac-0ea4-491b-b968-d8f49ec8758d",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "线性代数入门：矩阵与行列式",
+      "learning_objectives": [
+        "准确陈述矩阵的定义，识别并举例说明方阵、零矩阵、单位矩阵、对角矩阵等常见类型，理解其在建模线性系统（如电路分析、图像变换、数据表示）中的意义",
+        "熟练执行矩阵加法、数乘与乘法运算，能判断运算是否合法，并通过具体例子验证结合律、分配律及乘法不满足交换律",
+        "从几何视角解释二阶、三阶行列式的含义（面积/体积缩放因子），掌握其形式化定义与计算规则",
+        "运用对角线法则计算二阶、三阶行列式；能写出指定元素的余子式与代数余子式，并正确实施按行（列）展开",
+        "阐明方阵可逆性与行列式非零之间的充要关系，并能用该判据快速判断简单矩阵是否可逆"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "投影仪/电子白板",
+        "学生用讲义（含例题与即时练习）",
+        "彩色粉笔或荧光笔（用于板书强调）",
+        "课堂应答卡/手机投票工具（如Mentimeter或纸质卡片）"
+      ],
+      "introduction": "同学们好！今天我们开启线性代数的核心篇章——矩阵与行列式。你们可能已经用过Excel表格、处理过图像像素、或解过二元一次方程组——这些其实都暗含‘矩阵’的身影。比如，一张2×3的灰度图可看作一个2行3列的数字矩阵；而解方程组时，我们把系数‘打包’成矩阵，变量和常数也写成向量，整个系统就变得简洁又可推广。那么，矩阵到底是什么？它如何运算？为什么我们要引入‘行列式’这个看似复杂的数值？今天，我们将从定义出发，亲手算一算、比一比、想一想——让抽象概念落地为可操作的数学工具。",
+      "main_content": [
+        {
+          "section_title": "一、矩阵：结构化的数字方阵",
+          "content": "矩阵是按行与列排布的矩形数表，记作A = [aᵢⱼ]ₘₓₙ，其中i为行标、j为列标。重点区分：① 方阵（m=n）——后续讨论可逆性、特征值的基础；② 零矩阵O（所有元素为0）——加法单位元；③ 单位矩阵I（主对角线为1，其余为0）——乘法单位元；④ 对角矩阵（仅主对角线非零）——高效计算与物理建模常用。强调：矩阵不是数，而是‘数据容器’；其维度（m×n）决定能否参与运算。",
+          "key_points": [
+            "矩阵由行、列、元素三要素定义；维度不可省略",
+            "单位矩阵Iₙ满足AIₙ = IₙA = A（当A为n阶方阵）",
+            "零矩阵与单位矩阵是矩阵代数中的‘特殊常量’，类比实数中的0和1"
+          ],
+          "notes": "用黑板/白板现场构造2×2单位阵、3×3对角阵；提问：‘4×1矩阵叫什么？’（列向量）→自然衔接向量概念，但本课聚焦矩阵本身。"
+        },
+        {
+          "section_title": "二、矩阵运算：规则与陷阱",
+          "content": "加法与数乘要求同维，满足交换律、结合律、分配律；矩阵乘法A·B要求A的列数= B的行数，结果为(m×p)矩阵，(AB)ᵢⱼ = Σₖ aᵢₖbₖⱼ。关键警示：AB ≠ BA（反例：取A=[[1,0],[0,0]], B=[[0,1],[0,0]]，计算得AB≠BA）。结合律成立：(AB)C = A(BC)，分配律成立：A(B+C)=AB+AC。强调：乘法代表‘变换的复合’——先做B变换，再做A变换，顺序不可颠倒。",
+          "key_points": [
+            "乘法合法性由‘内维相等’判定（Aₘₓₙ·Bₙₓₚ → Cₘₓₚ）",
+            "AB与BA可能维度不同、甚至一个有定义另一个无定义",
+            "单位矩阵在乘法中起‘恒等作用’，零矩阵满足A·O = O·A = O（适配维度）"
+          ],
+          "notes": "组织1分钟‘速算接力’：两组学生分别计算AB与BA（给定2×2小矩阵），直观感受非交换性；教师同步板演并标注维度变化。"
+        },
+        {
+          "section_title": "三、行列式：方阵的‘标量指纹’",
+          "content": "行列式det(A)仅对方阵A定义，是将矩阵映射为一个实数的函数。二阶：det([[a,b],[c,d]]) = ad−bc；三阶用对角线法则或展开法。几何上，|det(A)|表示A将单位正方形（二维）或单位立方体（三维）拉伸/压缩后的面积/体积；符号反映方向（右手系是否保持）。基本性质：① 行（列）线性相关 ⇒ det=0；② 行（列）互换 ⇒ det变号；③ 某行（列）乘k ⇒ det乘k；④ 行（列）倍加不改变det。",
+          "key_points": [
+            "行列式是方阵的‘内在标量’，非方阵无行列式",
+            "det=0 ⇔ 行（列）向量线性相关 ⇔ 矩阵降秩 ⇔ 不可逆",
+            "几何意义是核心直觉：行列式绝对值=线性变换的体积缩放因子"
+          ],
+          "notes": "展示单位正方形经[[2,0],[0,3]]变换后变为2×3矩形，面积从1→6，det=6；再经[[1,1],[0,0]]变换坍缩为线段，面积0，det=0——强化几何直觉。"
+        },
+        {
+          "section_title": "四、计算与展开：从技巧到逻辑",
+          "content": "二阶直接套公式；三阶优先用对角线法则（仅适用于3阶）；高阶必用按行/列展开：det(A) = Σⱼ aᵢⱼCᵢⱼ，其中Cᵢⱼ = (−1)ⁱ⁺ʲMᵢⱼ为代数余子式，Mᵢⱼ为删去第i行第j列后的子矩阵行列式。策略：选含最多0的行/列展开以简化计算。例如，计算[[1,2,0],[0,3,4],[0,0,5]]——按第一列展开，仅首项非零，一步得det=1×det([[3,4],[0,5]])=15。",
+          "key_points": [
+            "余子式Mᵢⱼ是(n−1)阶行列式；代数余子式含符号因子(−1)ⁱ⁺ʲ",
+            "展开本质是递归降阶：将n阶问题转化为多个(n−1)阶问题",
+            "‘零多选，主对角优’是高效计算的经验法则"
+          ],
+          "notes": "板书演示三阶对角线法则（标出三条主对角线与副对角线），再对比展开法——突出展开法的普适性与结构性。"
+        },
+        {
+          "section_title": "五、矩阵与行列式：可逆性的钥匙",
+          "content": "定理：n阶方阵A可逆 ⇔ det(A) ≠ 0。这是线性代数最核心的判据之一。推论：若det(A)=0，则Ax=0有非零解（齐次方程组有无穷多解）；若det(A)≠0，则Ax=b有唯一解x=A⁻¹b。注意：det(AB)=det(A)det(B)，故det(A⁻¹)=1/det(A)（当A可逆）。此关系将代数运算（求逆）与标量计算（求行列式）紧密联结。",
+          "key_points": [
+            "行列式非零是矩阵可逆的充要条件（理论基石）",
+            "det(A)=0意味着矩阵‘信息丢失’（如投影变换将空间坍缩）",
+            "该判据避免了直接求逆的繁复，是工程与算法中首选的可行性检验"
+          ],
+          "notes": "关联前置知识：高中解二元方程组时，‘ad−bc≠0’即系数矩阵行列式非零，正是此定理的2阶特例——建立认知连续性。"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "概念快问快答（互动投票）",
+          "description": "使用手机投票或卡片，5道单选题（如：‘下列哪个矩阵是单位矩阵？’‘计算[[2,1],[3,4]]的行列式’‘AB与BA一定相等吗？’），实时显示答案分布，教师针对性讲解错选原因。",
+          "duration_minutes": 7,
+          "instructions": [
+            "教师投影题目，学生30秒思考并提交答案",
+            "展示统计结果，邀请1–2名学生简述选择理由",
+            "教师解析关键点（如混淆零矩阵与单位矩阵、忽略乘法非交换性）"
+          ]
+        },
+        {
+          "activity_name": "小组协作：构造与验证",
+          "description": "每组拿到一张任务卡：① 构造一个3×3对角矩阵D，使其det(D)=−8；② 构造两个2×2矩阵A、B，使AB=O但A≠O且B≠O；③ 解释为何你的A、B不违反‘无零因子律’（因矩阵环非整环）。",
+          "duration_minutes": 10,
+          "instructions": [
+            "小组内讨论并手写方案（限时5分钟）",
+            "每组派代表板书结果，全班共同验证计算与逻辑",
+            "教师点评并升华：‘零因子存在’是矩阵代数区别于实数的重要特征"
+          ]
+        }
+      ],
+      "assessment": "形成性评估贯穿全程：① 快问快答数据（即时诊断概念混淆点）；② 小组活动成果展示（观察协作与推理过程）；③ 教师巡视记录典型错误（如展开时漏符号、乘法维度误判）。总结性评估（课后）：布置3道分层习题——基础（计算二/三阶行列式）、进阶（用展开法算4阶含零矩阵）、拓展（证明：若A²=O，则det(A)=0）。",
+      "closure": "今天我们建立了矩阵与行列式两大支柱：矩阵是‘结构’，承载数据与变换；行列式是‘度量’，刻画变换的缩放与可逆性。记住三个关键词：结构（matrix）、标量（determinant）、判据（invertibility criterion）。下节课，我们将用行列式作为桥梁，正式学习如何求矩阵的逆——真正解锁线性方程组的通用解法。请大家回顾讲义中的‘几何意义图示’，思考：如果det(A)=2，det(B)=−3，那么线性变换B∘A对体积的总效应是什么？（答案：−6）"
+    },
+    "ppt_outline": {
+      "total_slides": 12,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "线性代数入门：矩阵与行列式",
+          "bullet_points": [
+            "大学一年级 · 理工科核心数学课",
+            "45分钟 · 互动探究式学习",
+            "主讲教师：[姓名]"
+          ],
+          "speaker_notes": "欢迎语；简述课程定位——本课是线性代数‘承上启下’的关键节点，连接高中代数与后续向量空间、特征值等高阶内容。",
+          "suggested_images": [
+            "lesson_1772611384367_888ad234fde149f4866fe93b8cca0748.jpeg"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "为什么需要矩阵与行列式？",
+          "bullet_points": [
+            "现实场景：图像处理（像素矩阵）、机器人运动学（变换矩阵）、经济投入产出模型",
+            "数学需求：统一表达线性方程组、描述几何变换、判定解的存在唯一性",
+            "本课目标：从‘会算’走向‘懂意’"
+          ],
+          "speaker_notes": "用生活化案例破除畏难心理；强调‘工具性’与‘思想性’并重。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "一、矩阵：定义与常见类型",
+          "bullet_points": [
+            "定义：m行n列的矩形数表 A = [aᵢⱼ]ₘₓₙ",
+            "核心类型：方阵（m=n）、零矩阵O、单位矩阵Iₙ、对角矩阵",
+            "辨析：I₂ = [[1,0],[0,1]]；O₂ₓ₃ = [[0,0,0],[0,0,0]]"
+          ],
+          "speaker_notes": "板书同步绘制各类矩阵示例；提问：‘I₃的第2行第2列元素是多少？’（巩固符号理解）",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "content",
+          "title": "二、矩阵运算：规则与限制",
+          "bullet_points": [
+            "加法/数乘：同维 → 满足交换律、结合律、分配律",
+            "乘法：Aₘₓₙ·Bₙₓₚ = Cₘₓₚ；(AB)ᵢⱼ = Σₖ aᵢₖbₖⱼ",
+            "⚠️ 关键：AB ≠ BA（一般不成立）；举例验证"
+          ],
+          "speaker_notes": "展示反例计算过程；强调‘维度匹配’是乘法前提，用彩色箭头标注A列数=B行数。",
+          "suggested_images": [
+            "lesson_1772611384367_c24f819b48984ae4988bc1c5b40923ce.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "activity",
+          "title": "互动挑战：谁先算出AB与BA？",
+          "bullet_points": [
+            "给定：A = [[1,2],[0,1]], B = [[1,0],[3,1]]",
+            "任务：两人一组，1人算AB，1人算BA（2分钟）",
+            "目标：发现AB = BA？还是不同？"
+          ],
+          "speaker_notes": "计时开始；巡视指导；收集答案后揭晓：AB=[[7,2],[3,1]], BA=[[1,2],[3,7]] → 不同！引出非交换性。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "content",
+          "title": "三、行列式：方阵的几何指纹",
+          "bullet_points": [
+            "定义：det: Mₙ(ℝ) → ℝ；二阶：ad−bc；三阶：对角线法则",
+            "几何意义：|det(A)| = 单位图形经A变换后的面积/体积",
+            "关键性质：线性相关 ⇒ det=0；行交换 ⇒ det变号"
+          ],
+          "speaker_notes": "动态描述：‘想象单位正方形被矩阵拉扯——det就是它胖了多少或瘦了多少’；用板书画变形示意图。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "content",
+          "title": "四、计算实战：二阶、三阶与展开法",
+          "bullet_points": [
+            "二阶：直接公式；三阶：对角线法（仅限3阶）",
+            "通用法：按行/列展开 — det(A) = Σⱼ aᵢⱼ·Cᵢⱼ",
+            "Cᵢⱼ = (−1)ⁱ⁺ʲ·Mᵢⱼ（Mᵢⱼ为余子式）"
+          ],
+          "speaker_notes": "板书演示[[1,0,2],[−1,3,1],[2,1,0]]按第1行展开；强调符号位(−1)¹⁺¹=+1, (−1)¹⁺²=−1…",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "activity",
+          "title": "小组任务：构造与解释",
+          "bullet_points": [
+            "任务卡A：构造det(D)=−8的3×3对角矩阵",
+            "任务卡B：找A,B ∈ M₂(ℝ)使AB=O但A,B≠O",
+            "思考：这违背‘ab=0 ⇒ a=0或b=0’吗？"
+          ],
+          "speaker_notes": "分发不同任务卡；提醒：对角矩阵只需设对角元d₁,d₂,d₃，令d₁d₂d₃=−8；零因子存在是矩阵代数本质特征。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "content",
+          "title": "五、核心桥梁：矩阵可逆 ⇔ det(A) ≠ 0",
+          "bullet_points": [
+            "定理：A∈Mₙ(ℝ) 可逆 ⇔ det(A) ≠ 0",
+            "推论：det(A)=0 ⇒ Ax=0有非零解；det(A)≠0 ⇒ Ax=b有唯一解",
+            "应用：快速判别——无需求逆，先算det！"
+          ],
+          "speaker_notes": "关联高中：二元方程组ax+by=e, cx+dy=f有唯一解 ⇔ ad−bc≠0；这就是2阶版本！",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 10,
+          "slide_type": "summary",
+          "title": "本课核心图谱",
+          "bullet_points": [
+            "矩阵 = 结构（行、列、元素）→ 运算规则（加、乘、维度约束）",
+            "行列式 = 标量（仅方阵）→ 几何（缩放因子）+ 代数（展开、性质）",
+            "可逆性 = det ≠ 0（理论判据）= 唯一解（应用价值）"
+          ],
+          "speaker_notes": "用思维导图形式板书三者关系；强调：这不是孤立知识点，而是有机整体。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 11,
+          "slide_type": "assessment",
+          "title": "即时检测：3分钟快测",
+          "bullet_points": [
+            "Q1：A=[[2,1],[4,3]]，det(A)=？",
+            "Q2：B=[[1,0,0],[0,0,0],[0,0,1]]，det(B)=？",
+            "Q3：若C为3×2矩阵，D为2×4矩阵，CD是几阶矩阵？"
+          ],
+          "speaker_notes": "学生独立完成；收齐后快速批阅，统计正确率；Q2考察‘含零行则det=0’性质，Q3考察乘法维度规则。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 12,
+          "slide_type": "closure",
+          "title": "下一站：逆矩阵与克莱姆法则",
+          "bullet_points": [
+            "预告：用行列式构造A⁻¹ = (1/det(A))·adj(A)",
+            "挑战：当det(A)=0时，如何解Ax=b？（最小二乘）",
+            "课后思考：det(A+B) = det(A)+det(B)？为什么？"
+          ],
+          "speaker_notes": "以开放问题结尾，激发探究欲；提供课后资源链接（交互式行列式可视化工具）。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果一个3×3矩阵的两行完全相同，它的行列式一定是0吗？请从几何和代数两个角度解释。",
+      "为什么单位矩阵的行列式总是1？这与它作为‘恒等变换’的角色有何联系？",
+      "矩阵乘法不满足交换律，但在哪些特殊情况下AB=BA成立？（提示：考虑A、B均为对角矩阵）",
+      "行列式为负数意味着什么？仅仅表示‘面积为负’吗？它在物理或几何中有何实际含义？",
+      "假设你设计一个图像缩放程序，用户输入缩放因子s_x, s_y。对应的2×2变换矩阵是什么？它的行列式是多少？这与图像面积变化一致吗？"
+    ],
+    "homework": "1. 【基础】计算下列行列式：(a) [[5,-2],[1,3]]; (b) [[1,2,3],[0,4,5],[0,0,6]]。2. 【进阶】设A=[[1,2],[3,4]], B=[[0,1],[1,0]]，计算AB、BA、det(A)、det(B)、det(AB)、det(BA)，验证det(AB)=det(A)det(B)。3. 【思考】查阅资料，简述‘雅可比行列式’在多元积分变量替换中的作用（100字内）。"
+  }
+}

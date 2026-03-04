@@ -350,12 +350,66 @@
             color: #666;
         }
 
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
+        .kb-upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            background: #fafafa;
+        }
+        .kb-upload-area:hover, .kb-upload-area.drag-over {
+            border-color: #667eea;
+            background: #f0f7ff;
+        }
+        .material-file-list {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #555;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .material-file-item {
+            padding: 3px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            border-radius: 4px;
+        }
+        .material-file-item:hover {
+            background: #f0f0f0;
+        }
+        .material-file-item .file-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+            overflow: hidden;
+        }
+        .material-file-item .file-label span:last-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .material-file-item .remove-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 0 2px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .material-file-item .remove-btn:hover {
+            color: #e55;
+        }
+        .material-count {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
         }
 
         @media (max-width: 768px) {
@@ -403,9 +457,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label>上传素材（图片/文档）</label>
-                        <input type="file" id="teaching-materials" multiple accept=".pdf,.txt,.md,.docx,.png,.jpg,.jpeg,.gif,.bmp">
-                        <p style="font-size: 12px; color: #666; margin-top: 6px;">支持 PDF、Word、文本、Markdown、常见图片格式</p>
+                        <label>📂 上传教学素材（图片 / 文档，同时作为知识库）</label>
+                        <!-- Hidden input; files are accumulated in JS array `selectedFiles` -->
+                        <input type="file" id="teaching-materials" multiple
+                               accept=".pdf,.txt,.md,.docx,.png,.jpg,.jpeg,.gif,.bmp"
+                               style="display:none" onchange="addMaterialFiles()">
+                        <div class="kb-upload-area" onclick="document.getElementById('teaching-materials').click()"
+                             id="materials-drop-zone">
+                            <span>🖼 点击或拖拽上传（支持多次选择）</span><br>
+                            <small style="color:#888">PDF、Word、文本、Markdown、图片 — 将同步作为知识库检索来源</small>
+                        </div>
+                        <div class="material-file-list" id="material-file-list"></div>
+                        <div class="material-count" id="material-count"></div>
                     </div>
 
                     <div class="form-group">
@@ -451,20 +514,83 @@
     <script>
         let selectedTemplate = 'formal';
 
+        // ── Accumulated file list (persists across multiple file-picker opens) ──
+        let selectedFiles = [];   // Array of File objects
+
+        // ── Template selection ──────────────────────────────────
         function selectTemplate(templateId, element) {
             selectedTemplate = templateId;
-            console.log('Selected template:', templateId);
-            document.querySelectorAll('.template-card').forEach(card => {
-                card.classList.remove('selected');
-            });
+            document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
             element.classList.add('selected');
         }
 
+        // ── Add newly chosen files (merge, skip duplicates by name+size) ────────
+        function addMaterialFiles() {
+            const input = document.getElementById('teaching-materials');
+            const newFiles = Array.from(input.files);
+            newFiles.forEach(f => {
+                const isDup = selectedFiles.some(e => e.name === f.name && e.size === f.size);
+                if (!isDup) selectedFiles.push(f);
+            });
+            // Reset the input so the same file can be picked again later if needed
+            input.value = '';
+            renderMaterialFileList();
+        }
+
+        // ── Render the accumulated file list with remove buttons ────────────────
+        function renderMaterialFileList() {
+            const listDiv = document.getElementById('material-file-list');
+            const countDiv = document.getElementById('material-count');
+            listDiv.innerHTML = '';
+            selectedFiles.forEach((f, idx) => {
+                const item = document.createElement('div');
+                item.className = 'material-file-item';
+                item.innerHTML = `
+                    <div class="file-label">
+                        <span>${fileIcon(f.name)}</span>
+                        <span title="${f.name}">${f.name}</span>
+                    </div>
+                    <button class="remove-btn" title="移除" onclick="removeMaterialFile(${idx})">✕</button>`;
+                listDiv.appendChild(item);
+            });
+            countDiv.textContent = selectedFiles.length > 0
+                ? `已选 ${selectedFiles.length} 个文件`
+                : '';
+        }
+
+        // ── Remove a single file from the accumulated list ──────────────────────
+        function removeMaterialFile(idx) {
+            selectedFiles.splice(idx, 1);
+            renderMaterialFileList();
+        }
+
+        function fileIcon(name) {
+            const ext = name.split('.').pop().toLowerCase();
+            const map = { pdf: '📕', docx: '📘', doc: '📘', txt: '📄', md: '📝',
+                          png: '🖼', jpg: '🖼', jpeg: '🖼', gif: '🖼', bmp: '🖼' };
+            return map[ext] || '📎';
+        }
+
+        // ── Drag-and-drop for the upload area ───────────────────
+        function setupDragDrop(zoneId, inputId, addFn) {
+            const zone = document.getElementById(zoneId);
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                const input = document.getElementById(inputId);
+                const dt = new DataTransfer();
+                Array.from(e.dataTransfer.files).forEach(f => dt.items.add(f));
+                input.files = dt.files;
+                addFn();
+            });
+        }
+
+        // ── Generate lesson & PPT ───────────────────────────────
         async function generateLesson() {
-            const theme = document.getElementById('teaching-theme').value;
-            const objectives = document.getElementById('teaching-objectives').value;
-            const materialsInput = document.getElementById('teaching-materials');
-            const materials = materialsInput.files || [];
+            const theme = document.getElementById('teaching-theme').value.trim();
+            const objectives = document.getElementById('teaching-objectives').value.trim();
 
             if (!theme || !objectives) {
                 alert('请填写必填项：教学主题、学习目标');
@@ -472,93 +598,100 @@
             }
 
             const messagesDiv = document.getElementById('teaching-messages');
-            messagesDiv.innerHTML = '<div style="text-align: center;"><div class="loading"></div><div class="loading"></div><div class="loading"></div></div>';
+            const resultDiv  = document.getElementById('teaching-result');
+            resultDiv.innerHTML = '';
+            messagesDiv.innerHTML = `
+                <div style="text-align:center; padding:20px;">
+                    <div class="loading"></div>
+                    <div class="loading"></div>
+                    <div class="loading"></div>
+                    <p style="margin-top:12px; color:#667eea;">正在生成教案与PPT，请稍候…</p>
+                    <p style="color:#999; font-size:12px;">（通常需要 30-90 秒）</p>
+                </div>`;
 
-            const userInput = `
-教学主题：${theme}
-学习目标：${objectives}
-PPT风格：${selectedTemplate}
-            `;
+            const userInput = `教学主题：${theme}\n学习目标：${objectives}\nPPT风格：${selectedTemplate}`;
 
             const formData = new FormData();
             formData.append('message', userInput);
             formData.append('mode', 'teaching');
             formData.append('user_id', 'teacher_' + Date.now());
             formData.append('task_id', 'lesson_' + Date.now());
-            Array.from(materials).forEach(file => {
-                formData.append('files', file);
-            });
+            // Append all accumulated teaching material files
+            selectedFiles.forEach(f => formData.append('files', f));
 
             try {
-                console.log('Sending request to /send_message_with_files with input:', userInput);
-
-                const response = await fetch('/send_message_with_files', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                console.log('Response received:', response.status);
+                const response = await fetch('/send_message_with_files', { method: 'POST', body: formData });
                 const data = await response.json();
-                console.log('Response data:', data);
 
                 messagesDiv.innerHTML = '';
 
                 if (data.error) {
-                    messagesDiv.innerHTML = `<div class="error-message">${data.error}</div>`;
-                } else {
-                    // Add response message
-                    const statusBadge = `<span class="status-badge ${data.status}">${data.status}</span>`;
-                    messagesDiv.innerHTML = `
-                        <div class="message assistant">
-                            <div class="message-content">
-                                ${data.response}
-                                ${statusBadge}
-                                <p style="margin-top: 10px; color: #666;">
-                                    ${data.processing_step}
-                                </p>
-                            </div>
-                        </div>
-                    `;
-
-                    // Display export results if available
-                    if (data.export_result && data.export_result.files) {
-                        const resultDiv = document.getElementById('teaching-result');
-                        let resultHTML = '<div class="result-box"><h3>✅ 生成完成</h3>';
-
-                        if (data.export_result.files.docx) {
-                            const docxFile = data.export_result.files.docx;
-                            resultHTML += `
-                                <div class="result-item">
-                                    <strong>📄 教案文档：</strong><br>
-                                    ${docxFile.format} (${docxFile.size_mb.toFixed(2)} MB)<br>
-                                    <a href="${docxFile.path}" class="download-btn" download>下载教案</a>
-                                </div>
-                            `;
-                        }
-
-                        if (data.export_result.files.ppt) {
-                            const pptFile = data.export_result.files.ppt;
-                            resultHTML += `
-                                <div class="result-item">
-                                    <strong>🎨 PPT演示：</strong><br>
-                                    ${pptFile.format} (${pptFile.size_mb.toFixed(2)} MB)<br>
-                                    <a href="${pptFile.path}" class="download-btn" download>下载PPT</a>
-                                </div>
-                            `;
-                        }
-
-                        resultHTML += '</div>';
-                        resultDiv.innerHTML = resultHTML;
-                    }
+                    messagesDiv.innerHTML = `<div class="error-message">❌ ${data.error}</div>`;
+                    return;
                 }
+
+                const statusClass = data.status === 'completed' ? 'success' : 'error';
+                messagesDiv.innerHTML = `
+                    <div class="message assistant">
+                        <div class="message-content">
+                            ${data.response}
+                            <span class="status-badge ${statusClass}">${data.status}</span>
+                            <p style="margin-top:8px; color:#666; font-size:13px;">${data.processing_step || ''}</p>
+                        </div>
+                    </div>`;
+
+                // ── Parse export results ──────────────────────
+                const exportResult = data.export_result || {};
+                const exports = exportResult.exports || {};
+                const lessonPlan = exports.lesson_plan || {};
+                const pptExport  = exports.ppt || {};
+
+                let hasFiles = false;
+                let resultHTML = '<div class="result-box"><h3>✅ 生成完成</h3>';
+
+                // Lesson plan docx
+                const docxFile = (lessonPlan.files || {}).docx;
+                if (docxFile && docxFile.path) {
+                    hasFiles = true;
+                    resultHTML += `
+                        <div class="result-item">
+                            <strong>📄 教案文档：</strong><br>
+                            ${docxFile.format || 'Word Document'} (${(docxFile.size_mb || 0).toFixed(2)} MB)<br>
+                            <a href="/download?path=${encodeURIComponent(docxFile.path)}" class="download-btn" download>下载教案</a>
+                        </div>`;
+                }
+
+                // PPT
+                const pptFile = pptExport.file;
+                if (pptFile && pptFile.path) {
+                    hasFiles = true;
+                    resultHTML += `
+                        <div class="result-item">
+                            <strong>🎨 PPT演示：</strong><br>
+                            ${pptFile.format || 'PowerPoint'} (${(pptFile.size_mb || 0).toFixed(2)} MB)<br>
+                            共 ${pptExport.total_slides || 0} 张幻灯片<br>
+                            <a href="/download?path=${encodeURIComponent(pptFile.path)}" class="download-btn" download>下载PPT</a>
+                        </div>`;
+                }
+
+                if (!hasFiles && data.status === 'completed') {
+                    resultHTML += '<div class="result-item" style="color:#666;">文件已生成，请查看服务器 generated_lessons/ 目录。</div>';
+                }
+
+                resultHTML += '</div>';
+                if (hasFiles || data.status === 'completed') {
+                    resultDiv.innerHTML = resultHTML;
+                }
+
             } catch (error) {
                 console.error('Error:', error);
-                messagesDiv.innerHTML = `<div class="error-message">错误：${error.message}</div>`;
+                messagesDiv.innerHTML = `<div class="error-message">❌ 请求出错：${error.message}</div>`;
             }
         }
 
-        // Initialize
+        // ── Init ────────────────────────────────────────────────
         selectTemplate('formal', document.querySelector('.template-card'));
+        setupDragDrop('materials-drop-zone', 'teaching-materials', addMaterialFiles);
     </script>
 </body>
 </html>

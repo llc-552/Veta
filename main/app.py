@@ -79,6 +79,30 @@ class MessageRequest(BaseModel):
     task_id: Optional[str] = None  # 任务ID
     rag_enabled: Optional[bool] = False  # RAG知识库开关
 
+@app.get("/download")
+async def download_file(path: str):
+    """Serve a generated file for download (restricted to project directory)."""
+    import pathlib
+    from fastapi.responses import FileResponse
+
+    # Security: only allow files inside the project directory
+    project_root = pathlib.Path(base_dir).resolve()
+    requested = pathlib.Path(path).resolve()
+    try:
+        requested.relative_to(project_root)
+    except ValueError:
+        return JSONResponse(content={"error": "Access denied"}, status_code=403)
+
+    if not requested.is_file():
+        return JSONResponse(content={"error": "File not found"}, status_code=404)
+
+    return FileResponse(
+        path=str(requested),
+        filename=requested.name,
+        media_type="application/octet-stream"
+    )
+
+
 # -------------------------------
 # 页面路由
 # -------------------------------
@@ -273,7 +297,7 @@ def _build_response(result: Dict) -> JSONResponse:
     return JSONResponse(content=response_data)
 
 
-def _save_uploaded_files(files: List[UploadFile], task_id: str) -> list:
+async def _save_uploaded_files(files: List[UploadFile], task_id: str) -> list:
     rag_folder = os.path.join(base_dir, "rag_data")
     os.makedirs(rag_folder, exist_ok=True)
 
@@ -289,11 +313,55 @@ def _save_uploaded_files(files: List[UploadFile], task_id: str) -> list:
 
         safe_name = f"{task_id}_{uuid.uuid4().hex}{ext}"
         save_path = os.path.join(rag_folder, safe_name)
+        content = await file.read()
         with open(save_path, "wb") as f:
-            f.write(file.file.read())
+            f.write(content)
         saved_paths.append(save_path)
 
     return saved_paths
+
+@app.post("/upload_knowledge")
+async def upload_knowledge(
+    files: List[UploadFile] = File(default=[])
+):
+    """上传知识库文件（支持多文件），保存到 rag_data/"""
+    rag_folder = os.path.join(base_dir, "rag_data")
+    os.makedirs(rag_folder, exist_ok=True)
+
+    allowed_exts = {".pdf", ".txt", ".md", ".docx", ".png", ".jpg", ".jpeg", ".gif", ".bmp"}
+    saved_files = []
+    skipped_files = []
+
+    for file in files:
+        filename = file.filename or ""
+        _, ext = os.path.splitext(filename)
+        ext = ext.lower()
+        if ext not in allowed_exts:
+            skipped_files.append(filename)
+            print(f"⚠️  Skipping unsupported upload: {filename}")
+            continue
+
+        # Keep original filename (add uuid prefix to avoid collisions)
+        safe_name = f"{uuid.uuid4().hex[:8]}_{filename}"
+        save_path = os.path.join(rag_folder, safe_name)
+        content = await file.read()
+        with open(save_path, "wb") as f:
+            f.write(content)
+        saved_files.append({"original": filename, "saved": safe_name})
+        print(f"✅ Saved knowledge file: {safe_name}")
+
+    # Invalidate the FAISS hash so index will be rebuilt on next request
+    hash_file = os.path.join(base_dir, "faiss_index", ".hash")
+    if os.path.exists(hash_file):
+        os.remove(hash_file)
+
+    return {
+        "status": "ok",
+        "saved": saved_files,
+        "skipped": skipped_files,
+        "total": len(saved_files)
+    }
+
 
 @app.post("/send_message_with_files")
 async def send_message_with_files(
@@ -318,7 +386,7 @@ async def send_message_with_files(
     print("=" * 70)
 
     try:
-        saved_files = _save_uploaded_files(files, actual_task_id)
+        saved_files = await _save_uploaded_files(files, actual_task_id)
         teaching_workflow = get_or_create_teaching_workflow(user_id, actual_task_id)
         result = await teaching_workflow.run(user_input, uploaded_files=saved_files)
         return _build_response(result)

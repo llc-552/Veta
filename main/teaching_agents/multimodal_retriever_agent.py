@@ -1,9 +1,12 @@
 """Multimodal Retriever Agent - Retrieves images, diagrams, and related educational materials"""
 
 from main.multimodal_rag import MultimodalRetriever
+from main.config import get_openai_config
 from typing import Dict, Any, List, Optional
 import json
 import logging
+import os
+import base64
 
 logger = logging.getLogger(__name__)
 
@@ -11,18 +14,107 @@ class MultimodalRetrieverAgent:
     """Agent for retrieving multimodal educational materials (text and images)"""
 
     def __init__(self, rag_folder: str = "./rag_data", device: str = "cpu"):
-        """
-        Initialize the Multimodal Retriever Agent
-
-        Args:
-            rag_folder: Path to folder containing educational materials
-            device: Device to use for embeddings ('cpu' or 'cuda')
-        """
         self.rag_folder = rag_folder
         self.device = device
         self.retriever = None
         self.retriever_initialized = False
+        self._llm = None
         self._init_retriever()
+
+    def _get_llm(self):
+        """Lazily initialise the LLM for image captioning."""
+        if self._llm is None:
+            try:
+                from langchain_openai import ChatOpenAI
+                openai_config = get_openai_config()
+                self._llm = ChatOpenAI(
+                    openai_api_base=openai_config['api_base'],
+                    openai_api_key=openai_config['api_key'],
+                    model=openai_config['model'],
+                    temperature=0.3,
+                )
+            except Exception as e:
+                logger.warning(f"Could not initialise LLM for image captioning: {e}")
+        return self._llm
+
+    async def generate_image_description(self, image_path: str) -> str:
+        """
+        Generate a textual description for an image file.
+        Tries vision-capable API first; falls back to filename-based description.
+        """
+        filename = os.path.basename(image_path)
+        stem = os.path.splitext(filename)[0].replace("_", " ").replace("-", " ")
+        desc_file = image_path + ".desc"
+
+        # Return cached description if available
+        if os.path.exists(desc_file):
+            try:
+                with open(desc_file, "r", encoding="utf-8") as f:
+                    return f.read().strip()
+            except Exception:
+                pass
+
+        # Try to use vision LLM
+        try:
+            from langchain_core.messages import HumanMessage
+            llm = self._get_llm()
+            if llm is None:
+                return stem
+
+            image_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'}
+            if os.path.splitext(filename)[1].lower() not in image_extensions:
+                return stem
+
+            with open(image_path, "rb") as img_file:
+                img_data = base64.b64encode(img_file.read()).decode("utf-8")
+
+            ext = os.path.splitext(filename)[1].lower().lstrip(".")
+            mime_map = {"jpg": "jpeg", "jpeg": "jpeg", "png": "png",
+                        "gif": "gif", "bmp": "bmp", "webp": "webp"}
+            mime_type = f"image/{mime_map.get(ext, 'jpeg')}"
+
+            msg = HumanMessage(content=[
+                {"type": "text",
+                 "text": "请用中文简洁描述这张图片的内容，重点说明图片中的教学相关信息，不超过100字。"},
+                {"type": "image_url",
+                 "image_url": {"url": f"data:{mime_type};base64,{img_data}"}}
+            ])
+            response = await llm.ainvoke([msg])
+            description = response.content.strip()
+
+            # Cache the description
+            try:
+                with open(desc_file, "w", encoding="utf-8") as f:
+                    f.write(description)
+            except Exception:
+                pass
+
+            logger.info(f"Generated description for {filename}: {description[:60]}...")
+            return description
+
+        except Exception as e:
+            logger.warning(f"Vision LLM description failed for {filename}: {e}")
+            return stem
+
+    async def build_image_index_from_uploads(self, image_paths: List[str]) -> List[Dict[str, Any]]:
+        """
+        Build a semantic index of uploaded images by generating text descriptions.
+        Returns a list of {path, filename, description} dicts.
+        """
+        image_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'}
+        indexed_images = []
+        for path in image_paths:
+            ext = os.path.splitext(path)[1].lower()
+            if ext not in image_extensions:
+                continue
+            description = await self.generate_image_description(path)
+            indexed_images.append({
+                "path": path,
+                "filename": os.path.basename(path),
+                "description": description
+            })
+            logger.info(f"Indexed image: {os.path.basename(path)} -> {description[:60]}")
+        return indexed_images
 
     def _init_retriever(self):
         """Initialize the retriever with error handling"""
@@ -108,30 +200,17 @@ class MultimodalRetrieverAgent:
             return retrieved_materials
 
     def _generate_retrieval_queries(self, intent_data: Dict[str, Any]) -> List[str]:
-        """
-        Generate search queries from intent data
-
-        Args:
-            intent_data: Parsed teaching intent
-
-        Returns:
-            List of search queries
-        """
+        """Generate search queries from intent data"""
         queries = []
 
-        # Add theme as primary query
         if intent_data.get('theme'):
             queries.append(intent_data['theme'])
 
-        # Add key concepts
         queries.extend(intent_data.get('key_concepts', []))
 
-        # Add objectives (simplified)
         for obj in intent_data.get('objectives', []):
-            # Take first 20 words of objective as query
             queries.append(' '.join(obj.split()[:5]))
 
-        # Remove duplicates while preserving order
         seen = set()
         unique_queries = []
         for q in queries:
@@ -139,23 +218,14 @@ class MultimodalRetrieverAgent:
                 seen.add(q.lower())
                 unique_queries.append(q)
 
-        return unique_queries[:10]  # Limit to 10 queries
+        return unique_queries[:10]
 
     async def retrieve_by_concept(
         self,
         concept: str,
         material_type: str = "all"
     ) -> Dict[str, Any]:
-        """
-        Retrieve materials for a specific concept
-
-        Args:
-            concept: The concept to retrieve materials for
-            material_type: Type of materials ('text', 'image', or 'all')
-
-        Returns:
-            Dictionary containing retrieved materials
-        """
+        """Retrieve materials for a specific concept"""
         results = {
             "concept": concept,
             "text_materials": [],
@@ -180,12 +250,7 @@ class MultimodalRetrieverAgent:
             return results
 
     def get_retriever_stats(self) -> Dict[str, Any]:
-        """
-        Get statistics about the retriever
-
-        Returns:
-            Dictionary containing retriever statistics
-        """
+        """Get statistics about the retriever"""
         if not self.retriever_initialized:
             return {
                 "index_status": "not_initialized",
