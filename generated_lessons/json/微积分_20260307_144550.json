@@ -1,0 +1,411 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-03-07T14:45:50.705828",
+    "export_id": "ca958f9f-d490-477d-b441-a48313feead3",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "微积分导论：极限、导数与积分的核心思想",
+      "learning_objectives": [
+        "准确陈述极限的ε-δ定义，并能用直观图像和数值例子解释其含义",
+        "计算常见函数的极限（代入法、因式分解、有理化、夹逼准则），识别未定式并选择恰当方法",
+        "从几何（切线斜率）和物理（瞬时速度）双重视角解释导数，写出导数的差商定义",
+        "熟练应用幂函数求导法则、和差法则、乘积/商法则及链式法则求导",
+        "区分不定积分（原函数族）与定积分（有向面积/累积量），陈述牛顿–莱布尼茨公式",
+        "对多项式、三角、指数等初等函数进行基本不定积分与定积分计算"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "投影仪与PPT",
+        "黑板/白板与彩色粉笔/马克笔",
+        "学生讲义（含3道分层例题+1道课堂即时反馈题）",
+        "计时器"
+      ],
+      "introduction": "同学们好！今天我们开启微积分的大门——这不仅是数学工具，更是人类理解‘变化’与‘累积’最深刻的语言。想象一辆汽车在加速：它的位置随时间变化，速度是位置的‘瞬时变化率’，而行驶的总路程是速度的‘累积效果’。微积分正是用极限架起这两者之间的桥梁。本节课我们将聚焦三大支柱：极限（变化的起点）、导数（变化的速率）、积分（变化的总量）。我们不追求一步登顶，而是通过清晰定义、典型例题和即时互动，建立直觉与严谨的双重基础。",
+      "main_content": [
+        {
+          "section_title": "一、极限：从直观到严格",
+          "content": "极限描述函数在某点‘趋近’的行为，而非该点取值本身。先以直观方式引入：观察f(x)=sin(x)/x在x→0时的数值表与图像（展示x=0.1,0.01,…对应值趋近1），引出‘无限接近但未必到达’的思想。随后正式给出ε-δ定义：∀ε>0, ∃δ>0, 当0<|x−a|<δ时，|f(x)−L|<ε。强调ε是‘目标精度’，δ是‘输入控制范围’；这是对‘足够接近’的逻辑量化。重点说明：极限存在要求左右极限相等；极限值与f(a)是否定义、是否等于L无关。",
+          "key_points": [
+            "极限刻画‘趋近行为’，与函数在该点是否有定义无关",
+            "ε-δ定义是分析学严谨性的基石：ε控制输出误差，δ控制输入范围",
+            "常用计算策略：①直接代入（连续函数）；②因式分解消去零因子（如(x²−4)/(x−2)）；③有理化（含根式）；④夹逼准则（如sin(x)/x）"
+          ],
+          "notes": "用红蓝双色粉笔在黑板上同步标注ε带（纵轴）与δ邻域（横轴），动态画出‘收缩’过程；强调δ依赖于ε，但不必唯一。避免过度形式化推导，重在理解逻辑结构。"
+        },
+        {
+          "section_title": "二、导数：变化率的精确刻画",
+          "content": "导数是极限的自然延伸。从平均速度（Δs/Δt）过渡到瞬时速度（lim_{Δt→0} Δs/Δt），引出导数定义：f'(a) = lim_{h→0} [f(a+h)−f(a)]/h。几何上，它是曲线y=f(x)在x=a处切线的斜率；物理上，是位移对时间的变化率（速度）、速度对时间的变化率（加速度）等。推导幂函数求导法则：由二项式展开得(x+h)^n = x^n + nx^{n−1}h + o(h)，代入差商即得(x^n)' = nx^{n−1}。接着系统讲解四则运算法则与链式法则（以y=sin(x²)为例，设u=x², y=sin(u)，则dy/dx = cos(u)·2x）。",
+          "key_points": [
+            "导数 = 瞬时变化率 = 切线斜率 = 差商的极限",
+            "核心法则：(u±v)' = u'±v', (uv)' = u'v + uv', (u/v)' = (u'v − uv')/v², (f∘g)' = f'(g)·g'",
+            "链式法则本质是‘变化率的传递’：外层函数对内层变量的变化率 × 内层变量对自变量的变化率"
+          ],
+          "notes": "在黑板上绘制抛物线y=x²，标出点(1,1)与附近点(1+h,(1+h)²)，用虚线连接两点表示割线，h→0时动态演示割线转为切线；同步计算斜率极限，强化几何—代数对应。"
+        },
+        {
+          "section_title": "三、积分：累积与反导数的统一",
+          "content": "积分分为两类：不定积分∫f(x)dx表示f的所有原函数（即F'(x)=f(x)的F(x)），结果带+C；定积分∫_a^b f(x)dx表示f在[a,b]上的有向面积（或物理量累积，如位移=∫速度dt）。通过黎曼和（矩形逼近）引入定积分概念，再揭示其与原函数的深刻联系——微积分基本定理（FTC）：若F是f的原函数，则∫_a^b f(x)dx = F(b)−F(a)。这是微积分的‘皇冠明珠’，表明微分与积分互为逆运算。举例：∫_0^π sin(x)dx = [−cos(x)]_0^π = (−cos π) − (−cos 0) = 1 + 1 = 2。",
+          "key_points": [
+            "不定积分 = 求原函数（反导数）；定积分 = 有向面积/累积量",
+            "牛顿–莱布尼茨公式（FTC第一部分）：d/dx ∫_a^x f(t)dt = f(x)；第二部分：∫_a^b f(x)dx = F(b)−F(a)",
+            "基本积分公式：∫x^n dx = x^{n+1}/(n+1)+C (n≠−1), ∫sin x dx = −cos x + C, ∫e^x dx = e^x + C"
+          ],
+          "notes": "用动画感语言描述FTC：‘对一个累积量（定积分）求导，就得到被累积的瞬时速率（原函数）’；反之，‘对瞬时速率求原函数，再作差，就得到总累积量’。强调+C在不定积分中的必要性（导数为零的函数不唯一）；在定积分中+C自动抵消。"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "即时诊断：极限类型识别",
+          "description": "发放讲义第1题：判断lim_{x→2} (x²−4)/(x−2)、lim_{x→0} sin(5x)/x、lim_{x→∞} (3x²+2x)/(x²−1) 分别适用哪种方法？学生独立思考1分钟，举手抢答并简述理由。",
+          "duration_minutes": 4,
+          "instructions": [
+            "教师读题，学生静默思考",
+            "邀请3位学生分别回答一道，追问‘为什么不能直接代入？’‘如何构造夹逼？’",
+            "教师用红笔在PPT上圈出关键词（如‘0/0型’‘sinθ/θ结构’‘最高次项主导’）"
+          ]
+        },
+        {
+          "activity_name": "合作推演：链式法则实战",
+          "description": "小组任务（2人一组）：求y = ln(cos(3x)) 的导数。限时3分钟，要求写出中间变量设定、每步求导依据及最终结果。",
+          "duration_minutes": 5,
+          "instructions": [
+            "分发半空白讲义（留出中间变量u,v位置）",
+            "巡视指导，提示‘从外到内’拆解：y=ln(u), u=cos(v), v=3x",
+            "随机抽取1组板书过程，全班共同检查符号与链式衔接"
+          ]
+        },
+        {
+          "activity_name": "FTC概念快问",
+          "description": "教师快速提问3个True/False判断题（如：∫_1^2 2x dx = x²|_1^2；若F'(x)=f(x)，则∫_a^b f(x)dx = F(b)−F(a)；∫sin x dx = cos x + C），学生用A/B/C卡片即时反馈。",
+          "duration_minutes": 3,
+          "instructions": [
+            "每题展示20秒，学生举牌",
+            "对错误率>30%的题目，邀请学生解释错因（如漏负号、混淆不定/定积分写法）",
+            "教师用不同颜色标注正确格式：∫sin x dx = −cos x + C；∫_a^b sin x dx = (−cos b) − (−cos a)"
+          ]
+        }
+      ],
+      "assessment": "形成性评估贯穿全程：①即时诊断活动检测极限方法选择能力；②链式法则小组任务评估步骤规范性与概念理解；③FTC快问识别常见误区（如+C缺失、上下限代入顺序）。总结性评估：课堂结束前2分钟发放‘1道综合题’（如：已知f(x)=√(x²+1)，求f'(x)及∫_0^1 f'(x)dx），作为课后提交的微型作业，检验微分与积分互逆关系的掌握程度。",
+      "closure": "今天我们搭建了微积分的‘三足支架’：极限是严密性的地基，导数是变化的显微镜，积分是累积的计算器。特别记住——FTC不是公式，而是世界观：世界上的‘变化’与‘总量’本是一体两面。下节课我们将深入探讨导数的应用：如何用它找函数极值、描绘曲线形态？请大家预习单调性与凹凸性判定。现在，请合上笔记，闭眼10秒：回想今天三个核心词——Limit, Derivative, Integral——它们之间，正有一条用极限编织的金线紧紧相连。"
+    },
+    "ppt_outline": {
+      "total_slides": 12,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "微积分导论：极限 · 导数 · 积分",
+          "bullet_points": [
+            "大学一年级 / AP Calculus AB 核心模块",
+            "45分钟：定义·法则·思想·互动",
+            "主讲：[教师姓名]"
+          ],
+          "speaker_notes": "微笑开场，语速舒缓。点击播放轻音乐3秒后停止。强调‘这不是一门只算题的课，而是一场理解世界变化方式的思想实验’。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "为什么需要极限？——从模糊直觉到数学确定性",
+          "bullet_points": [
+            "问题：f(x) = sin(x)/x 在 x=0 处无定义，但‘看起来’应为1",
+            "数值证据：x=0.1→0.998, x=0.01→0.99998...",
+            "图像证据：[graph_sin_x_over_x.png] —— 空心点在(0,1)处"
+          ],
+          "speaker_notes": "切换至图像幻灯片，激光笔圈出x=0附近的空心点，提问：‘如果我说‘它应该等于1’，这个‘应该’够不够数学？不够——我们需要ε-δ来划出精确的‘足够接近’区域。’",
+          "suggested_images": [
+            "graph_sin_x_over_x.png"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "极限的ε-δ定义：逻辑的精密雕刻",
+          "bullet_points": [
+            "定义：lim_{x→a} f(x) = L ⇔ ∀ε>0, ∃δ>0, s.t. 0<|x−a|<δ ⇒ |f(x)−L|<ε",
+            "可视化：[epsilon_delta_visualization.png] —— ε带（纵）与δ邻域（横）",
+            "关键：δ依赖于ε，但不必唯一；‘0<|x−a|’排除x=a本身"
+          ],
+          "speaker_notes": "用动画分步呈现：先画y=L的水平线，再画y=L±ε两条平行线构成‘ε带’；然后在x轴标出a，画x=a±δ区间；最后强调‘只要x落在δ区间（除a外），f(x)必落在ε带内’。暂停3秒，让学生默读定义。",
+          "suggested_images": [
+            "epsilon_delta_visualization.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "content",
+          "title": "极限计算四大策略",
+          "bullet_points": [
+            "✅ 代入法：f连续 ⇒ lim_{x→a} f(x) = f(a)",
+            "✅ 因式分解：lim_{x→2} (x²−4)/(x−2) = lim_{x→2} (x+2) = 4",
+            "✅ 有理化：lim_{x→0} (√(x+1)−1)/x → 分子有理化",
+            "✅ 夹逼准则：−|x| ≤ x·sin(1/x) ≤ |x| ⇒ 极限为0"
+          ],
+          "speaker_notes": "每条策略配一个超小字号反例（灰色）：如代入法旁注‘× lim_{x→0} sin(x)/x（0/0型）’；夹逼准则旁注‘× 必须找到两个都趋于L的函数’。提醒：策略选择取决于‘未定式类型’。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "section",
+          "title": "导数：当‘平均’走向‘瞬时’",
+          "bullet_points": [
+            "物理视角：平均速度 → 瞬时速度（Δt→0）",
+            "几何视角：割线斜率 → 切线斜率（Δx→0）",
+            "定义：f'(a) = lim_{h→0} [f(a+h)−f(a)]/h"
+          ],
+          "speaker_notes": "播放2秒GIF：抛物线上两点连线逐渐旋转贴合于一点。提问：‘如果h=0.001，这个差商已经很接近真实斜率了吗？数学上，我们要求h无限小——这就是极限的力量。’",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "content",
+          "title": "从定义出发：推导 (xⁿ)' = n·xⁿ⁻¹",
+          "bullet_points": [
+            "f(x) = xⁿ ⇒ [f(x+h)−f(x)]/h = [(x+h)ⁿ − xⁿ]/h",
+            "二项式展开：(x+h)ⁿ = xⁿ + n·xⁿ⁻¹·h + C(n,2)·xⁿ⁻²·h² + ...",
+            "∴ 差商 = n·xⁿ⁻¹ + C(n,2)·xⁿ⁻²·h + ... → n·xⁿ⁻¹ (h→0)"
+          ],
+          "speaker_notes": "板书同步推演，强调高阶无穷小项（含h²及以上）在取极限时消失。指出这是所有初等函数求导法则的‘种子’。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "content",
+          "title": "求导法则全景图",
+          "bullet_points": [
+            "线性性：(c·f + d·g)' = c·f' + d·g'",
+            "乘积法则：(fg)' = f'g + fg' —— ‘前导后不导 + 后导前不导’",
+            "商法则：(f/g)' = (f'g − fg')/g²",
+            "链式法则：(f∘g)'(x) = f'(g(x))·g'(x) —— ‘外导·内导’"
+          ],
+          "speaker_notes": "用颜色编码：f用蓝色，g用红色，f'用深蓝，g'用深红。对链式法则，画嵌套框图：x → g → f(g) → 导数流：g' → f' → 相乘。强调‘没有链式法则，我们就无法处理复合函数——而现实世界几乎全是复合的！’",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "section",
+          "title": "积分：从‘求面积’到‘求原函数’",
+          "bullet_points": [
+            "不定积分 ∫f(x)dx：全体原函数 F(x)+C，满足 F'(x)=f(x)",
+            "定积分 ∫ₐᵇ f(x)dx：黎曼和极限 → 有向面积/物理累积量",
+            "核心洞见：微分与积分是互逆运算"
+          ],
+          "speaker_notes": "展示对比表格：左栏‘微分’（输入函数，输出变化率），右栏‘积分’（输入变化率，输出总量）。提问：‘如果我告诉你某物体的速度v(t)=2t，你能告诉我它t=3时走了多远吗？’引导学生说出∫₀³ 2t dt。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "content",
+          "title": "牛顿–莱布尼茨公式（FTC）",
+          "bullet_points": [
+            "第一部分：d/dx ∫ₐˣ f(t)dt = f(x) —— ‘对累积量求导，得瞬时速率’",
+            "第二部分：∫ₐᵇ f(x)dx = F(b)−F(a) —— ‘对瞬时速率求原函数，再作差，得总量’",
+            "例：∫₀^π sin x dx = [−cos x]₀^π = (−(−1)) − (−1) = 2"
+          ],
+          "speaker_notes": "用箭头图示FTC双向性：∫ → F(b)−F(a) ← F；同时F' → f ← ∫。强调‘第二部分是计算定积分的终极武器’，但前提是能找到原函数。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 10,
+          "slide_type": "activity",
+          "title": "课堂即时反馈：你的微积分直觉",
+          "bullet_points": [
+            "Q1：lim_{x→0} (1−cos x)/x² 应选？ A.代入 B.因式分解 C.夹逼 D.洛必达（暂不学）",
+            "Q2：y = e^{sin x} 的导数？ A.e^{sin x} B.e^{sin x}·cos x C.sin x·e^{sin x−1}",
+            "Q3：∫₁² 1/x dx = ? A.ln2 B.ln2−ln1 C.1/2−1/1"
+          ],
+          "speaker_notes": "每题后停顿15秒，观察学生反应。对Q1，提示‘1−cos x ~ x²/2（泰勒）→ 可用等价无穷小，但现阶段用夹逼更稳妥’；Q2强调链式法则；Q3辨析ln x是1/x的原函数。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 11,
+          "slide_type": "summary",
+          "title": "今日核心：一条金线，三个锚点",
+          "bullet_points": [
+            "🔹 极限：ε-δ是‘趋近’的数学宪法；计算靠策略匹配",
+            "🔹 导数：变化率的精确定义；法则链是破解复合函数的密钥",
+            "🔹 积分：累积量的量化；FTC是微分与积分和解的庄严条约",
+            "✅ 下一步：用导数研究函数性态（极值、凹凸、拐点）"
+          ],
+          "speaker_notes": "用金色线条动画连接三个关键词图标。结束语：‘你们今天触摸的，是牛顿与莱布尼茨在17世纪点燃的理性火炬——它至今仍照亮着人工智能、航天工程与基因编辑的前沿。’",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 12,
+          "slide_type": "content",
+          "title": "课后微型任务（2分钟完成）",
+          "bullet_points": [
+            "设 f(x) = x³ − 2x + 1",
+            "1. 求 f'(x)",
+            "2. 计算 ∫₀¹ f'(x) dx",
+            "3. 观察结果，你能联想到什么定理？"
+          ],
+          "speaker_notes": "明确说明：这是下节课讨论的引子。答案将揭示FTC如何让‘求导再积分’回到起点——就像呼吸一样自然。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果一个函数在某点极限存在，它在该点一定连续吗？请举例说明。",
+      "导数存在的几何必要条件是什么？是否存在不可导但连续的函数？（提示：y=|x|）",
+      "为什么定积分∫ₐᵇ f(x)dx中f(x)可以为负，而‘面积’通常是正的？如何理解‘有向面积’？",
+      "微积分基本定理告诉我们微分与积分互逆。那么，∫ d/dx [f(x)] dx 是否一定等于 f(x)？需要什么条件？"
+    ],
+    "homework": "完成讲义‘课后微型任务’；阅读教材第2章第3节（ε-δ证明范例），尝试复现lim_{x→3} (2x+1)=7的ε-δ证明（提示：δ=ε/2）；预习‘函数的单调性与导数符号的关系’。"
+  }
+}

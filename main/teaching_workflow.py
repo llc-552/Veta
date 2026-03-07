@@ -301,6 +301,61 @@ class TeachingWorkflow:
 
         return state
 
+    async def refine_and_export(
+        self,
+        original_content: Dict[str, Any],
+        refinement_request: str,
+        template_id: str = "default_formal",
+        lesson_title: Optional[str] = None,
+        indexed_images: Optional[List[Dict[str, Any]]] = None
+    ) -> Dict[str, Any]:
+        """Refine existing generated content and export a new lesson/PPT version."""
+        logger.info("")
+        logger.info("🔁 Starting interactive refinement flow")
+        logger.info("-" * 60)
+
+        try:
+            refined_content = await self.content_generator.refine_content(
+                original_content=original_content,
+                refinement_request=refinement_request
+            )
+            if refined_content.get("error"):
+                return {
+                    "status": "error",
+                    "error": refined_content.get("error"),
+                    "processing_step": "Refinement failed"
+                }
+
+            resolved_title = (
+                lesson_title
+                or refined_content.get("lesson_plan", {}).get("title")
+                or original_content.get("lesson_plan", {}).get("title")
+                or "Lesson Plan"
+            )
+
+            export_result = await self.export_manager.export_full_lesson(
+                lesson_data=refined_content,
+                ppt_data=refined_content,
+                template_id=template_id,
+                lesson_title=resolved_title,
+                indexed_images=indexed_images or []
+            )
+
+            return {
+                "status": "completed",
+                "error": None,
+                "processing_step": "Interactive refinement completed",
+                "generated_content": refined_content,
+                "export_result": export_result
+            }
+        except Exception as e:
+            logger.error(f"❌ Interactive refinement error: {str(e)}", exc_info=True)
+            return {
+                "status": "error",
+                "error": f"Interactive refinement error: {str(e)}",
+                "processing_step": "Refinement/export failed"
+            }
+
     async def run(self, user_input: str, uploaded_files: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Run the complete teaching workflow

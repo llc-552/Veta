@@ -27,6 +27,7 @@ state_lock = asyncio.Lock()
 # 全局状态管理
 # -------------------------------
 teaching_workflow_instances: Dict[str, TeachingWorkflow] = {}  # 存储教学工作流实例
+teaching_session_states: Dict[str, Dict] = {}  # 存储最近一次生成结果，供交互式修改使用
 
 # -------------------------------
 # 启动事件
@@ -44,16 +45,16 @@ async def startup_event():
 # -------------------------------
 # 辅助函数
 # -------------------------------
+def _resolve_session_ids(user_id: Optional[str], task_id: Optional[str]) -> tuple[str, str]:
+    """Resolve stable session ids used by both initial generation and follow-up refinements."""
+    actual_user_id = user_id or "anonymous_user"
+    actual_task_id = task_id or f"lesson_{uuid.uuid4().hex[:8]}"
+    return actual_user_id, actual_task_id
+
+
 def get_or_create_teaching_workflow(user_id: Optional[str] = None, task_id: Optional[str] = None) -> TeachingWorkflow:
     """获取或创建 TeachingWorkflow 实例"""
-    # 用户ID由用户输入，如果没有则使用默认值
-    actual_user_id = user_id or "anonymous_user"
-
-    # 任务ID随机生成（如果task_id存在则使用，否则生成新的）
-    if task_id:
-        actual_task_id = task_id
-    else:
-        actual_task_id = f"lesson_{uuid.uuid4().hex[:8]}"
+    actual_user_id, actual_task_id = _resolve_session_ids(user_id, task_id)
 
     # 使用 user_id + task_id 作为实例的唯一键
     instance_key = f"{actual_user_id}:{actual_task_id}"
@@ -79,6 +80,15 @@ class MessageRequest(BaseModel):
     task_id: Optional[str] = None  # 任务ID
     rag_enabled: Optional[bool] = False  # RAG知识库开关
 
+
+class RefineRequest(BaseModel):
+    message: str
+    user_id: str
+    task_id: str
+
+# -------------------------------
+# 文件下载接口
+# -------------------------------
 @app.get("/download")
 async def download_file(path: str):
     """Serve a generated file for download (restricted to project directory)."""
@@ -117,15 +127,14 @@ async def index(request: Request):
 async def send_message(req: MessageRequest):
     """同步消息接口 - 返回完整的生成结果"""
     user_input = req.message
-    user_id = req.user_id
-    task_id = req.task_id
+    actual_user_id, actual_task_id = _resolve_session_ids(req.user_id, req.task_id)
 
     print("")
     print("=" * 70)
     print("📨 New Message Received")
     print("=" * 70)
-    print(f"User ID: {user_id}")
-    print(f"Task ID: {task_id}")
+    print(f"User ID: {actual_user_id}")
+    print(f"Task ID: {actual_task_id}")
     print(f"Mode: {req.mode}")
     print(f"Message preview: {user_input[:100]}...")
     print("=" * 70)
@@ -133,7 +142,7 @@ async def send_message(req: MessageRequest):
     try:
         # 获取或创建 TeachingWorkflow 实例
         print("📌 Step 1: Getting or creating TeachingWorkflow instance...")
-        teaching_workflow = get_or_create_teaching_workflow(user_id, task_id)
+        teaching_workflow = get_or_create_teaching_workflow(actual_user_id, actual_task_id)
         print("✅ TeachingWorkflow instance ready")
 
         # 运行教学工作流
@@ -143,6 +152,17 @@ async def send_message(req: MessageRequest):
         print(f"Result status: {result.get('status')}")
         print(f"Result error: {result.get('error')}")
 
+        if result.get("status") == "completed":
+            session_key = f"{actual_user_id}:{actual_task_id}"
+            teaching_session_states[session_key] = {
+                "generated_content": result.get("generated_content", {}),
+                "template_selection": result.get("template_selection", {}),
+                "indexed_images": result.get("indexed_images", []),
+                "intent_data": result.get("intent_data", {}),
+                "export_result": result.get("export_result", {}),
+                "refine_history": []
+            }
+
         print("📌 Step 3: Building response...")
         print("✅ Response built successfully")
 
@@ -151,7 +171,7 @@ async def send_message(req: MessageRequest):
         print("=" * 70)
         print("")
 
-        return _build_response(result)
+        return _build_response(result, actual_user_id, actual_task_id)
     except Exception as e:
         import traceback
         print(f"❌ Error in send_message: {str(e)}")
@@ -275,15 +295,18 @@ async def reset(request: Request):
             if instance_key in teaching_workflow_instances:
                 del teaching_workflow_instances[instance_key]
                 print(f"✅ TeachingWorkflow 会话已重置: {instance_key}")
+            if instance_key in teaching_session_states:
+                del teaching_session_states[instance_key]
         else:
             # 如果没有指定用户，清除所有实例
             teaching_workflow_instances.clear()
+            teaching_session_states.clear()
             print("✅ 所有 TeachingWorkflow 会话已重置")
 
     print(f"[系统]: TeachingWorkflow 会话已重置")
     return {"status": "ok", "mode": "teaching"}
 
-def _build_response(result: Dict) -> JSONResponse:
+def _build_response(result: Dict, user_id: Optional[str] = None, task_id: Optional[str] = None) -> JSONResponse:
     response_msg = "✅ 教学材料已成功生成！" if result.get('status') == 'completed' else "❌ 教学材料生成出现问题"
     response_data = {
         "response": response_msg,
@@ -292,7 +315,9 @@ def _build_response(result: Dict) -> JSONResponse:
         "export_result": result.get("export_result", {}),
         "error": result.get("error"),
         "awaiting_input": False,
-        "ended": result.get("status") == "completed"
+        "ended": result.get("status") == "completed",
+        "user_id": user_id,
+        "task_id": task_id
     }
     return JSONResponse(content=response_data)
 
@@ -372,13 +397,13 @@ async def send_message_with_files(
     files: List[UploadFile] = File(default=[])
 ):
     user_input = message
-    actual_task_id = task_id or f"lesson_{uuid.uuid4().hex[:8]}"
+    actual_user_id, actual_task_id = _resolve_session_ids(user_id, task_id)
 
     print("")
     print("=" * 70)
     print("📨 New Message Received (with files)")
     print("=" * 70)
-    print(f"User ID: {user_id}")
+    print(f"User ID: {actual_user_id}")
     print(f"Task ID: {actual_task_id}")
     print(f"Mode: {mode}")
     print(f"Message preview: {user_input[:100]}...")
@@ -387,9 +412,21 @@ async def send_message_with_files(
 
     try:
         saved_files = await _save_uploaded_files(files, actual_task_id)
-        teaching_workflow = get_or_create_teaching_workflow(user_id, actual_task_id)
+        teaching_workflow = get_or_create_teaching_workflow(actual_user_id, actual_task_id)
         result = await teaching_workflow.run(user_input, uploaded_files=saved_files)
-        return _build_response(result)
+
+        if result.get("status") == "completed":
+            session_key = f"{actual_user_id}:{actual_task_id}"
+            teaching_session_states[session_key] = {
+                "generated_content": result.get("generated_content", {}),
+                "template_selection": result.get("template_selection", {}),
+                "indexed_images": result.get("indexed_images", []),
+                "intent_data": result.get("intent_data", {}),
+                "export_result": result.get("export_result", {}),
+                "refine_history": []
+            }
+
+        return _build_response(result, actual_user_id, actual_task_id)
     except Exception as e:
         import traceback
         print(f"❌ Error in send_message_with_files: {str(e)}")
@@ -406,3 +443,62 @@ async def send_message_with_files(
             },
             status_code=500
         )
+
+
+@app.post("/refine_ppt")
+async def refine_ppt(req: RefineRequest):
+    """基于当前会话最近一次生成结果，按对话指令进行PPT/教案交互式修改并重新导出。"""
+    session_key = f"{req.user_id}:{req.task_id}"
+    session_state = teaching_session_states.get(session_key)
+    if not session_state:
+        return JSONResponse(
+            content={
+                "status": "error",
+                "error": "未找到可修改的会话，请先生成一次教案与PPT",
+                "processing_step": "refinement_failed"
+            },
+            status_code=400
+        )
+
+    teaching_workflow = get_or_create_teaching_workflow(req.user_id, req.task_id)
+    template_id = session_state.get("template_selection", {}).get("recommended_template", {}).get("id", "default_formal")
+    lesson_title = session_state.get("intent_data", {}).get("theme") or session_state.get("generated_content", {}).get("lesson_plan", {}).get("title")
+
+    print("")
+    print("=" * 70)
+    print("🛠️  Interactive PPT Refinement")
+    print("=" * 70)
+    print(f"User ID: {req.user_id}")
+    print(f"Task ID: {req.task_id}")
+    print(f"Request: {req.message[:160]}")
+    print("=" * 70)
+
+    result = await teaching_workflow.refine_and_export(
+        original_content=session_state.get("generated_content", {}),
+        refinement_request=req.message,
+        template_id=template_id,
+        lesson_title=lesson_title,
+        indexed_images=session_state.get("indexed_images", [])
+    )
+
+    if result.get("status") == "completed":
+        history = session_state.get("refine_history", [])
+        history.append({"user": req.message})
+        session_state.update({
+            "generated_content": result.get("generated_content", {}),
+            "export_result": result.get("export_result", {}),
+            "refine_history": history
+        })
+        teaching_session_states[session_key] = session_state
+
+    return JSONResponse(
+        content={
+            "status": result.get("status", "error"),
+            "response": "✅ 已根据你的要求更新PPT与教案" if result.get("status") == "completed" else "❌ 修改失败",
+            "processing_step": result.get("processing_step", ""),
+            "error": result.get("error"),
+            "export_result": result.get("export_result", {}),
+            "user_id": req.user_id,
+            "task_id": req.task_id
+        }
+    )

@@ -1,0 +1,329 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-03-06T22:04:15.478033",
+    "export_id": "ccf7a307-104d-4ff2-aad8-28f5f2386d96",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "矩阵与行列式：定义、运算与线性方程组求解",
+      "learning_objectives": [
+        "能准确叙述矩阵与行列式的定义，并解释其几何意义（如矩阵表示线性变换，行列式刻画体积缩放因子）",
+        "熟练执行矩阵的加法、数乘、乘法与转置运算，并辨析其运算法则（如乘法不满足交换律）",
+        "掌握n阶行列式的两种定义方式（排列定义与递归/余子式定义），理解并应用行列式的基本性质（如行线性性、反对称性、倍加不变性）",
+        "能用拉普拉斯展开计算低阶（≤4阶）行列式，并识别零行列式与奇异矩阵的关系",
+        "运用高斯消元法将增广矩阵化为行阶梯形，判断线性方程组解的存在性与唯一性；能通过逆矩阵法（当A可逆时）求解Ax = b",
+        "建立矩阵秩、可逆性、行列式非零性与方程组解结构之间的逻辑联系（即：det(A) ≠ 0 ⇔ A可逆 ⇔ rank(A)=n ⇔ Ax=b有唯一解）"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "投影仪与PPT课件",
+        "白板/黑板与彩色粉笔/白板笔",
+        "学生用练习纸（含2道即时练习题）",
+        "手机/平板（用于1分钟快速投票：'你认为矩阵乘法是否满足交换律？A. 是 B. 否 C. 有时是'）"
+      ],
+      "introduction": "同学们好！今天我们开启线性代数的核心篇章——矩阵与行列式。你们高中解过二元一次方程组，比如2x + y = 5, x − 3y = 1；但面对100个变量、100个方程的系统，手算显然不可行。数学家发明了‘矩阵’作为高效组织和操作这些数据的工具——它不只是表格，更是空间中‘伸缩、旋转、投影’等几何变换的编码器。而‘行列式’就像这个变换的‘体积放大率’：若为0，说明空间被压扁到低维（如平面坍缩为直线），此时方程组可能无解或无穷多解。接下来45分钟，我们将从定义出发，亲手计算、观察规律、验证结论，并现场用矩阵解一个实际问题。",
+      "main_content": [
+        {
+          "section_title": "一、矩阵：结构、类型与基本运算",
+          "content": "矩阵是m×n个数按矩形阵列排布的数表，记作A = [aᵢⱼ]ₘ×ₙ。强调：矩阵是整体对象，不是数的集合。常见类型包括：零矩阵（所有元为0）、单位矩阵Iₙ（主对角线为1，其余为0，满足AI = IA = A）、对称矩阵（Aᵀ = A）。运算规则需严格区分：加法要求同型，满足交换律与结合律；数乘分配律成立；矩阵乘法AB要求A的列数等于B的行数，结果C的(i,j)元是A第i行与B第j列的点积——这是线性变换复合的本质体现。特别提醒：AB ≠ BA一般成立（反例：A=[[1,1],[0,0]], B=[[1,0],[1,0]] → AB≠BA）。",
+          "key_points": [
+            "矩阵是有序数组，具有维度属性（m×n）",
+            "单位矩阵I是乘法单位元；转置(Aᵀ)ₖₗ = aₗₖ",
+            "矩阵乘法对应线性变换复合，故不可交换",
+            "乘法满足结合律：(AB)C = A(BC)，但不满足交换律"
+          ],
+          "notes": "板书演示A×B与B×A的计算差异；用几何类比：先旋转再平移 ≠ 先平移再旋转。邀请学生举出一个AB=0但A≠0,B≠0的例子（如投影矩阵）"
+        },
+        {
+          "section_title": "二、行列式：定义、性质与计算",
+          "content": "行列式仅对方阵定义。两种视角：① 排列定义——det(A) = Σₛᵢg(σ) a₁σ(₁)a₂σ(₂)⋯aₙσ(ₙ)，对所有n!个排列求和；② 递归定义——按第一行展开：det(A) = Σⱼ(−1)¹⁺ʲ a₁ⱼ det(M₁ⱼ)，其中M₁ⱼ是删去第1行第j列的余子式。核心性质：(1) 行（列）线性性；(2) 两行互换变号；(3) 一行加另一行的倍数，行列式不变；(4) 上三角矩阵行列式=主对角线乘积。这些性质使我们能用初等行变换将矩阵化为上三角形再计算——这正是高斯消元的理论基础。",
+          "key_points": [
+            "行列式是标量函数，反映方阵的‘可逆性’",
+            "性质(3)是高斯消元合法性的根源",
+            "det(A) = 0 ⇔ A的行（列）向量线性相关 ⇔ 空间被压缩",
+            "拉普拉斯展开可沿任意行/列进行，选零元多的行更高效"
+          ],
+          "notes": "用2×2、3×3实例演示展开；对比‘直接公式法’与‘化三角法’效率；强调：行列式不是绝对值，可正可负可零"
+        },
+        {
+          "section_title": "三、矩阵与方程组：秩、可逆性与解的判定",
+          "content": "对于线性方程组Ax = b（A为n×n），解的情况由A的秩rank(A)与增广矩阵[A|b]的秩共同决定：若rank(A) = rank([A|b]) = n，则唯一解；若rank(A) = rank([A|b]) < n，则无穷多解；若rank(A) < rank([A|b])，则无解。当A为方阵时，等价于：det(A) ≠ 0 ⇔ A可逆 ⇔ Ax = b有唯一解x = A⁻¹b。逆矩阵存在当且仅当A满秩，且A⁻¹ = (1/det(A))·adj(A)（伴随矩阵）。高斯消元法本质是用初等行变换将[A|b]→[I|x]，即同时对A和b施加相同变换。",
+          "key_points": [
+            "秩是矩阵行（列）向量组的最大线性无关个数",
+            "det(A) ≠ 0是n元n方程组有唯一解的充要条件",
+            "A⁻¹存在 ⇔ A可逆 ⇔ rank(A)=n ⇔ det(A)≠0",
+            "高斯消元的每一步对应左乘一个初等矩阵"
+          ],
+          "notes": "用2×2例子展示det(A)=0导致无解/无穷解；演示[A|b]→[U|c]过程；指出：即使det(A)≠0，数值计算中仍优先用LU分解或消元法，避免显式求逆"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "即时概念辨析（投票+讨论）",
+          "description": "教师发起1分钟匿名投票（手机扫码/举手），问题：'下列运算恒成立吗？① (A+B)² = A²+2AB+B²；② (AB)ᵀ = AᵀBᵀ；③ det(A+B) = det(A)+det(B)'。随即邀请学生解释正确/错误原因。",
+          "duration_minutes": 5,
+          "instructions": [
+            "教师在PPT展示问题，学生30秒思考后投票",
+            "统计结果，选取不同选项学生各1名简述理由",
+            "教师点评并板书反例：①缺BA项；②应为BᵀAᵀ；③行列式非线性"
+          ]
+        },
+        {
+          "activity_name": "小组协作计算（3分钟）",
+          "description": "分发练习纸：给定A=[[2,1],[3,4]], b=[5;11]，要求小组（3人）合作：① 计算det(A)；② 判断Ax=b解的情况；③ 若可解，用逆矩阵法求x（提示：A⁻¹ = (1/det(A))·[[4,-1],[-3,2]]）。",
+          "duration_minutes": 3,
+          "instructions": [
+            "小组内分工：1人算det，1人验证A⁻¹A=I，1人计算x=A⁻¹b",
+            "教师巡视，重点指导行列式符号与矩阵乘法顺序",
+            "随机抽取1组在白板展示步骤，全班核对"
+          ]
+        }
+      ],
+      "assessment": "形成性评估贯穿全程：① 投票结果实时反馈概念误区；② 小组练习纸提交（课后批阅）；③ 提问检查：'如果det(A)=0，能否断言Ax=0只有零解？为什么？'（答案：不能，此时必有非零解，因齐次方程组总有零解，det=0⇔有非零解）；总结性评估：下节课小测1题——给定3×3矩阵，用性质化简后计算det，并判断对应方程组解的情况。",
+      "closure": "今天我们建立了矩阵、行列式与线性方程组的三角关系：矩阵组织数据并承载变换，行列式量化变换的‘奇异性’，而秩与可逆性则为我们提供了判定解结构的精确标尺。记住这个黄金链条：det(A) ≠ 0 ⇔ A可逆 ⇔ rank(A)=n ⇔ Ax=b有唯一解。下节课我们将深入探讨向量空间、基与维数——它们是理解矩阵‘为什么这样工作’的深层语言。请大家预习教材第3章开头，并思考：为什么单位矩阵I的行列式总是1？"
+    },
+    "ppt_outline": {
+      "total_slides": 9,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "矩阵与行列式：定义、运算与线性方程组求解",
+          "bullet_points": [
+            "大学一年级 · 理工科数学 · 45分钟互动课",
+            "主讲：XXX老师",
+            "核心问题：如何用数学工具高效求解多变量方程组？"
+          ],
+          "speaker_notes": "欢迎语；展示教室实景图营造亲切感；强调本课是线性代数‘承上启下’的关键节点。",
+          "suggested_images": [
+            "lesson_1772805723396_2466d6e93b4348cf971a1ec97166a748.jpeg"
+          ],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "一、矩阵：不只是表格，而是变换的密码",
+          "bullet_points": [
+            "定义：m×n矩阵 A = [aᵢⱼ] —— 有序数表",
+            "关键类型：零矩阵、单位矩阵 Iₙ、对称矩阵",
+            "几何直觉：矩阵 = 线性变换（伸缩/旋转/投影）"
+          ],
+          "speaker_notes": "类比照片滤镜：同一张图（向量）经不同滤镜（矩阵）得到不同效果；Iₙ是‘原图滤镜’。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "矩阵运算：规则与陷阱",
+          "bullet_points": [
+            "✓ 加法/数乘：同型即可，满足交换律、分配律",
+            "⚠️ 乘法：A₍ₘₓₙ₎B₍ₙₓₚ₎ = C₍ₘₓₚ₎；(AB)C = A(BC)，但 AB ≠ BA 一般成立",
+            "✓ 转置：(AB)ᵀ = BᵀAᵀ，(Aᵀ)ᵀ = A",
+            "反例演示：A=[[1,1],[0,0]], B=[[1,0],[1,0]] → AB=[[2,0],[0,0]], BA=[[1,1],[1,1]]"
+          ],
+          "speaker_notes": "强调乘法顺序不可颠倒；用动画示意行×列点积过程；提问：'为什么需要A的列数=B的行数？'",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "section",
+          "title": "二、行列式：方阵的‘体积缩放因子’",
+          "bullet_points": [
+            "定义视角1：排列求和（n!项）",
+            "定义视角2：递归展开（Laplace）",
+            "几何意义：|det(A)| = 单位立方体经A变换后的n维体积"
+          ],
+          "speaker_notes": "播放10秒GIF（若可用）：单位正方形→平行四边形，面积=|det|；det<0表示定向翻转（如镜像）。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "content",
+          "title": "行列式五大核心性质（高斯消元的基石）",
+          "bullet_points": [
+            "1. 行线性性：det(..., k·rᵢ + rⱼ, ...) = k·det(..., rᵢ, ...) + det(..., rⱼ, ...)",
+            "2. 两行互换 ⇒ det变号",
+            "3. 一行加另一行倍数 ⇒ det不变 ✅",
+            "4. 有全零行 ⇒ det=0",
+            "5. 上三角矩阵 ⇒ det = ∏对角元"
+          ],
+          "speaker_notes": "性质3是消元法合法性的数学保证；用3×3矩阵演示‘化三角’全过程；提醒：每次行交换要记录符号变化。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "section",
+          "title": "三、解方程组：从矩阵到解的存在性",
+          "bullet_points": [
+            "核心桥梁：矩阵秩 rank(A)",
+            "判定定理：\n  • rank(A) = rank([A|b]) = n ⇒ 唯一解\n  • rank(A) = rank([A|b]) < n ⇒ 无穷多解\n  • rank(A) < rank([A|b]) ⇒ 无解",
+            "方阵特例：det(A) ≠ 0 ⇔ 唯一解 ⇔ A可逆"
+          ],
+          "speaker_notes": "用2×2案例对比：det≠0（唯一交点）、det=0（平行线→无解 或 重合→无穷解）；强调rank是更普适的概念。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "activity",
+          "title": "动手时刻：小组挑战（3分钟）",
+          "bullet_points": [
+            "给定 A = [[2,1],[3,4]], b = [5;11]",
+            "任务：① det(A) = ? ② 解的情况？ ③ 求 x = A⁻¹b",
+            "提示：A⁻¹ = (1/det(A))·[[4,-1],[-3,2]]"
+          ],
+          "speaker_notes": "发放练习纸；强调协作分工；巡视时重点关注det符号与矩阵乘法维度匹配。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "summary",
+          "title": "黄金三角：矩阵 · 行列式 · 方程组",
+          "bullet_points": [
+            "det(A) ≠ 0 ⇔ A可逆 ⇔ rank(A) = n ⇔ Ax = b有唯一解",
+            "高斯消元 = 左乘初等矩阵序列 ⇒ [A|b] → [I|x]",
+            "行列式为0 ⇔ 变换坍缩空间 ⇔ 方程组‘病态’（无解或无穷解）"
+          ],
+          "speaker_notes": "用三角形图示连接三者；强调这是整个线性代数的‘元定理’；预告下节：向量空间——这些概念的家园。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "content",
+          "title": "课后加油站 & 下节预告",
+          "bullet_points": [
+            "必做：教材P45习题1,3,7（行列式计算与性质应用）",
+            "思考题：为什么Iₙ的行列式恒为1？（从定义/几何/性质任一角度解释）",
+            "下节预告：向量空间、基、维数——揭开矩阵背后的空间结构",
+            "二维码：扫码观看3分钟动画《行列式如何度量面积》"
+          ],
+          "speaker_notes": "解答思考题线索：Iₙ是单位立方体自身，体积=1；或从排列定义，唯一偶排列id贡献1×1×...×1=1。",
+          "suggested_images": [
+            "lesson_1772805723396_f3fdcf18f92c481e9f88ac55cd38ba25.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果矩阵A满足A² = A（幂等矩阵），它的行列式可能取哪些值？为什么？",
+      "已知det(A) = 5，det(B) = −2，能否确定det(A + B)？请举例说明。",
+      "‘矩阵乘法不满足交换律’这一事实，在物理或计算机图形学中有哪些具体体现？",
+      "为什么求解Ax = b时，数值计算中通常避免直接计算A⁻¹？（提示：条件数、舍入误差）"
+    ],
+    "homework": "完成教材对应章节习题：1. 计算4阶行列式（用性质化简后展开）；2. 对给定3×3矩阵A，求其秩，并判断Ax=0与Ax=b（b≠0）的解集结构；3. 编写伪代码描述高斯消元法求解n元方程组的步骤。"
+  }
+}

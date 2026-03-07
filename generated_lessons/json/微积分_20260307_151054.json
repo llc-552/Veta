@@ -1,0 +1,439 @@
+{
+  "metadata": {
+    "export_timestamp": "2026-03-07T15:10:54.300576",
+    "export_id": "a759ae32-3ee8-492f-92dc-70a68c6dba34",
+    "version": "1.0"
+  },
+  "lesson_data": {
+    "lesson_plan": {
+      "title": "微积分导论：极限、导数与积分的核心思想",
+      "learning_objectives": [
+        "准确陈述极限的ε-δ定义，并能用直观语言解释其几何含义；熟练运用代入法、因式分解、有理化、夹逼准则及洛必达法则计算常见极限。",
+        "从差商极限出发定义导数，阐释其作为瞬时变化率（物理意义）和切线斜率（几何意义）的双重内涵；掌握幂函数、指数函数、三角函数及复合函数的求导法则，并应用于求切线方程与变化率问题。",
+        "区分不定积分（原函数族）与定积分（有向面积/累积量），通过黎曼和建立定积分的直观基础；准确表述并应用牛顿–莱布尼茨公式（微积分基本定理），掌握幂函数、e^x、sin x、cos x 的基本积分公式及简单换元技巧。"
+      ],
+      "duration_minutes": 45,
+      "materials_needed": [
+        "投影仪与PPT课件",
+        "白板与彩色记号笔",
+        "学生工作纸（含3道分层练习题）",
+        "即时反馈工具（如Mentimeter或简易举牌：A/B/C/D）"
+      ],
+      "introduction": "同学们，想象你正在用无人机拍摄一辆加速行驶的汽车——你想知道它在‘此刻’的速度是多少？但速度是‘路程除以时间’，而‘此刻’的时间间隔为零……这正是微积分诞生的起点：如何研究‘无穷小’与‘无限逼近’？今天我们将踏上微积分的思想之旅，不追求繁复计算，而是抓住三条主线：极限（一切的基石）、导数（变化的快照）、积分（累积的总和）。你们已熟悉的函数图像、代数变形和直觉判断，将成为我们最有力的工具。接下来的45分钟，我们将边想、边算、边画、边讨论——因为微积分不是背出来的，而是‘想出来’的。",
+      "main_content": [
+        {
+          "section_title": "一、极限：从直觉到严谨 —— ε-δ 的‘数学显微镜’",
+          "content": "极限描述函数在某点‘即将到达’的行为，而非该点取值本身。先回顾直观理解：当x→2时，f(x)=x²→4；当x→0⁺时，1/x→+∞。接着引入ε-δ定义：∀ε>0, ∃δ>0, 使得当0<|x−a|<δ时，恒有|f(x)−L|<ε。这可比喻为‘防守游戏’：挑战者（ε）指定一个目标精度（比如L附近±0.01），防守者（δ）必须找到一个x的范围（比如a附近±0.005），确保所有x落入此范围时，f(x)必然落在目标精度内。关键强调：δ依赖于ε，且只关心x≠a的邻域。计算方面，优先尝试直接代入；若得0/0型，启用因式分解（如lim_(x→1)(x²−1)/(x−1)）、有理化（含根式）、或洛必达法则（仅限可导函数且满足0/0或∞/∞型）。",
+          "key_points": [
+            "极限存在 ⇔ 左右极限存在且相等",
+            "ε-δ定义刻画‘任意接近’的严格性，是导数与积分的逻辑地基",
+            "代入法最快，但失效时需识别未定式类型（0/0, ∞/∞, ∞−∞等）",
+            "洛必达法则本质是用局部线性近似（导数）替代原函数比值"
+          ],
+          "notes": "避免过早陷入ε-δ证明训练；重点让学生画出‘ε带’与‘δ区间’示意图，建立空间感。用f(x)=x²在x=2处演示：给定ε=0.1，如何找δ？引导学生解|x²−4|<0.1 → |x−2||x+2|<0.1，限制|x−2|<1则|x+2|<5，故取δ=min{1, 0.1/5}=0.02。"
+        },
+        {
+          "section_title": "二、导数：变化的瞬时镜头 —— 从割线到切线",
+          "content": "导数定义为差商的极限：f′(a)=lim_(h→0)[f(a+h)−f(a)]/h。几何上，它是曲线y=f(x)在点(a,f(a))处切线的斜率；物理上，是位移对时间的瞬时变化率（即瞬时速度）。以f(x)=x²为例，计算f′(x)=2x，并在图像上标出x=1,2,3处切线斜率递增，呼应抛物线开口向上。核心求导法则包括：(c)′=0, (xⁿ)′=nxⁿ⁻¹, (eˣ)′=eˣ, (sin x)′=cos x, (cos x)′=−sin x，以及链式法则（复合函数）、乘积法则。应用示例：求y=x³−2x在x=1处的切线方程（先得斜率f′(1)=1，再用点斜式）；解释dy/dx=2t（自由落体速度）中‘2t’的物理含义。",
+          "key_points": [
+            "导数是函数局部线性化的最佳逼近，其存在蕴含函数在该点连续",
+            "链式法则体现‘变化的传递’：外层变化率 × 内层变化率",
+            "切线方程是导数最直接的几何输出：y−f(a)=f′(a)(x−a)",
+            "导数符号决定单调性：f′(x)>0 ⇒ f↑；f′(x)<0 ⇒ f↓"
+          ],
+          "notes": "用动态GeoGebra图展示割线绕定点旋转趋近切线的过程（若技术允许）。强调‘dx, dy’是微分符号，非分数，但在链式法则中形式上可约——这是莱布尼茨记号的巧妙之处。"
+        },
+        {
+          "section_title": "三、积分：累积的精密求和 —— 从黎曼和到牛顿–莱布尼茨",
+          "content": "不定积分∫f(x)dx表示f(x)的所有原函数F(x)+C，体现‘求导的逆运算’；定积分∫ₐᵇf(x)dx定义为黎曼和的极限：将[a,b]分割为n个小区间，任取ξᵢ∈[xᵢ₋₁,xᵢ]，求和Σf(ξᵢ)Δxᵢ，当maxΔxᵢ→0时的极限值，几何意义为x轴上方有向面积。微积分基本定理（第一部分）指出：若f连续，则F(x)=∫ₐˣf(t)dt可导，且F′(x)=f(x)；第二部分给出计算利器：∫ₐᵇf(x)dx=F(b)−F(a)，其中F′=f。基本积分公式：∫xⁿdx=xⁿ⁺¹/(n+1)+C (n≠−1), ∫eˣdx=eˣ+C, ∫cos x dx=sin x+C, ∫sin x dx=−cos x+C。简单换元法（如∫2x e^(x²)dx，令u=x²）体现链式法则的逆用。",
+          "key_points": [
+            "定积分结果是一个数（累积量），不定积分结果是一个函数族",
+            "微积分基本定理揭示了微分与积分的深刻对偶性：‘求导’与‘求原函数’互为逆过程",
+            "黎曼和中‘任取ξᵢ’的灵活性说明：只要f连续，取左端点、右端点或中点，极限相同",
+            "∫ₐᵇf(x)dx的符号反映f(x)在[a,b]上的正负区域净面积"
+          ],
+          "notes": "用阶梯状矩形逼近曲线下的面积动画强化黎曼和概念。对比d/dx(∫ₐˣf(t)dt)=f(x)与∫ₐᵇf′(x)dx=f(b)−f(a)，凸显‘微分与积分互逆’这一核心哲学。"
+        }
+      ],
+      "activities": [
+        {
+          "activity_name": "实时概念诊断（投票互动）",
+          "description": "教师呈现3个典型问题，学生用即时反馈工具（或举牌）选择答案，教师实时分析错误分布并针对性讲解。",
+          "duration_minutes": 7,
+          "instructions": [
+            "Q1（极限）：lim_(x→0) sin(5x)/x 的值是？ A. 0  B. 1  C. 5  D. 不存在",
+            "Q2（导数）：函数f(x)=e^(2x)·cos x 在x=0处的导数值是？ A. 1  B. 2  C. −1  D. 0",
+            "Q3（积分）：∫₀^π sin x dx 等于？ A. 0  B. 1  C. 2  D. π"
+          ]
+        },
+        {
+          "activity_name": "合作推演：从定义出发",
+          "description": "两人一组，在工作纸上合作完成：用导数定义（差商极限）推导f(x)=1/x的导函数，并简述其图像特征（双曲线）与导数符号的关系。",
+          "duration_minutes": 8,
+          "instructions": [
+            "步骤1：写出f′(x)=lim_(h→0)[1/(x+h)−1/x]/h",
+            "步骤2：通分化简分子，消去h",
+            "步骤3：取极限，得到f′(x)=−1/x²",
+            "步骤4：讨论：为何x=0无定义？f′(x)恒负说明什么？"
+          ]
+        }
+      ],
+      "assessment": "形成性评估贯穿全程：① 投票活动即时检测概念辨析能力；② 合作推演观察学生代数操作与概念关联能力；③ 教师巡视工作纸，捕捉典型错误（如忽略绝对值、误用洛必达、混淆不定积分常数C）。总结性评估嵌入PPT最后一页‘一分钟反思’：请学生写下‘今天我清晰理解的一个概念’和‘仍存疑问的一个点’，课后收集分析。",
+      "closure": "今天我们搭建了微积分的‘三足鼎立’框架：极限是地基，导数是上升的梯子，积分是收获的篮子——而牛顿–莱布尼茨公式正是连接梯子与篮子的桥梁。记住，所有看似复杂的技巧（洛必达、链式法则、换元法）都源于这三个核心定义。下节课，我们将深入‘导数的应用’：如何用它找函数最大值、描绘精确图像、解决优化问题。请大家带着今天的思考：如果导数描述‘瞬间’，积分描述‘全程’，那么‘微分方程’又在讲述怎样的故事？"
+    },
+    "ppt_outline": {
+      "total_slides": 13,
+      "slides": [
+        {
+          "slide_number": 1,
+          "slide_type": "cover",
+          "title": "微积分导论：极限 · 导数 · 积分",
+          "bullet_points": [
+            "大学一年级 / AP Calculus AB 核心概念",
+            "45分钟 · 交互式思维之旅"
+          ],
+          "speaker_notes": "欢迎语；强调本课目标不是覆盖全部内容，而是建立‘为什么这样定义’的直觉。展示课程LOGO（若有）。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "large",
+            "subtitle_position": "lower",
+            "image_position": "background"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 2,
+          "slide_type": "section",
+          "title": "Part 1：极限——数学的‘显微镜’",
+          "bullet_points": [
+            "从直觉到严谨：什么是lim f(x)?",
+            "ε-δ定义：一场精度与范围的博弈",
+            "计算策略：代入、分解、洛必达"
+          ],
+          "speaker_notes": "过渡语：‘没有极限，就没有微积分。它是我们谈论‘无限接近’的语言。’ 强调ε-δ不是考试重点，而是理解‘严格性’的钥匙。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 3,
+          "slide_type": "content",
+          "title": "ε-δ定义可视化",
+          "bullet_points": [
+            "∀ε > 0（挑战者出题）",
+            "∃δ > 0（防守者应答）",
+            "0 < |x−a| < δ ⇒ |f(x)−L| < ε（防守成功）"
+          ],
+          "speaker_notes": "用白板同步画图：水平线y=L，上下各ε距离画虚线（ε带）；竖直线x=a，左右各δ距离画虚线（δ区间）。标出‘洞’（x=a处空心）强调‘去心邻域’。举例f(x)=x²在a=2处。",
+          "suggested_images": [
+            "epsilon_delta_visualization.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 4,
+          "slide_type": "content",
+          "title": "极限计算：识别与破局",
+          "bullet_points": [
+            "Step 1：直接代入 → 成功？结束",
+            "Step 2：失败？检查未定式类型",
+            "0/0型：因式分解 / 有理化 / 洛必达",
+            "∞/∞型：洛必达 / 提最高次项"
+          ],
+          "speaker_notes": "展示lim_(x→4)(√x−2)/(x−4)：分子有理化后得1/(√x+2)→1/4。强调洛必达条件——必须验证0/0或∞/∞，且分子分母可导。",
+          "suggested_images": [
+            "limit_calculation_flowchart.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 5,
+          "slide_type": "content",
+          "title": "🎯 典型例题精讲：极限计算实战",
+          "bullet_points": [
+            "计算：lim_(x→0) (e^{3x} − 1 − 3x) / x²",
+            "分析：0/0 型 → 尝试洛必达（两次）",
+            "解：分子导→ 3e^{3x} − 3；分母导→ 2x → 仍0/0",
+            "再导：分子→ 9e^{3x}；分母→ 2 → 极限 = 9/2"
+          ],
+          "speaker_notes": "强调步骤完整性：① 验证未定式；② 检查可导性；③ 每次求导后重新代入；④ 最终结果需化简。提示：也可用泰勒展开（e^{3x}=1+3x+(9/2)x²+o(x²)）快速验证。",
+          "suggested_images": [
+            "limit_example_step_by_step.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 6,
+          "slide_type": "section",
+          "title": "Part 2：导数——变化的‘快照’",
+          "bullet_points": [
+            "定义：差商极限 f′(a)=lim_[h→0][f(a+h)−f(a)]/h",
+            "几何意义：切线斜率",
+            "物理意义：瞬时变化率",
+            "核心法则：幂、指数、三角、链式"
+          ],
+          "speaker_notes": "提问：‘割线斜率是什么？当两点无限靠近，它变成什么？’ 引出导数定义。用f(x)=x²动画演示割线→切线。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 7,
+          "slide_type": "content",
+          "title": "导数的双重面孔",
+          "bullet_points": [
+            "几何：y=f(x)在(a,f(a))处切线斜率",
+            "物理：s(t)位移→v(t)=s′(t)速度",
+            "经济：C(x)成本→MC(x)=C′(x)边际成本"
+          ],
+          "speaker_notes": "展示同一函数图像：标出一点，画切线；再在同一图上叠加位移-时间曲线，标出同一点的瞬时速度矢量。强调‘变化率’的普适性。",
+          "suggested_images": [
+            "derivative_geometric_physical.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 8,
+          "slide_type": "content",
+          "title": "求导法则速查",
+          "bullet_points": [
+            "(xⁿ)′ = nxⁿ⁻¹",
+            "(eˣ)′ = eˣ",
+            "(sin x)′ = cos x",
+            "(cos x)′ = −sin x",
+            "链式法则：[f(g(x))]′ = f′(g(x))·g′(x)"
+          ],
+          "speaker_notes": "用颜色标注链式法则：外层红、内层蓝。举例：d/dx[sin(3x²)] = cos(3x²)·6x。提醒：先识别‘外层函数’和‘内层函数’。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 9,
+          "slide_type": "section",
+          "title": "Part 3：积分——累积的‘精密求和’",
+          "bullet_points": [
+            "不定积分：原函数族 ∫f(x)dx = F(x)+C",
+            "定积分：黎曼和极限 ∫ₐᵇf(x)dx",
+            "微积分基本定理：连接微分与积分"
+          ],
+          "speaker_notes": "类比：导数是‘拆解’（局部变化），积分是‘组装’（全局累积）。问：‘如果每天存钱速率是f(t)，月底总额怎么算？’→ 定积分。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "center",
+            "title_size": "very_large",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 10,
+          "slide_type": "content",
+          "title": "黎曼和：从矩形到精确面积",
+          "bullet_points": [
+            "分割 [a,b] → n个小区间",
+            "每个区间选代表点 ξᵢ",
+            "求和 Σf(ξᵢ)Δxᵢ",
+            "取极限 maxΔxᵢ→0"
+          ],
+          "speaker_notes": "动画演示：n=2,4,8,16个矩形逼近∫₀¹x²dx。指出当f连续时，无论选左/右/中点，极限相同。强调‘有向面积’：x轴下方为负。",
+          "suggested_images": [
+            "riemann_sum_animation.gif"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 11,
+          "slide_type": "content",
+          "title": "牛顿–莱布尼茨公式：微积分的心脏",
+          "bullet_points": [
+            "第一部分：d/dx ∫ₐˣf(t)dt = f(x)",
+            "第二部分：∫ₐᵇf(x)dx = F(b)−F(a), 其中F′=f",
+            "例：∫₁²2x dx = [x²]₁² = 4−1 = 3"
+          ],
+          "speaker_notes": "用箭头图展示循环：f(x) →∫→ F(x) →d/dx→ f(x)。强调F是f的任意一个原函数，常数C在相减中抵消。",
+          "suggested_images": [
+            "fundamental_theorem_diagram.png"
+          ],
+          "layout": {
+            "title_position": "top_left",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "right"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 12,
+          "slide_type": "activity",
+          "title": "即时挑战：3分钟概念快测",
+          "bullet_points": [
+            "Q1：lim_(x→0) sin(5x)/x = ?",
+            "Q2：f(x)=e^(2x)cos x, f′(0)=?",
+            "Q3：∫₀^π sin x dx = ?"
+          ],
+          "speaker_notes": "开启投票工具；等待15秒；公布答案并快速解析（Q1用lim sinθ/θ=1；Q2用乘积法则；Q3=−cos x|₀^π=2）。聚焦错误归因。",
+          "suggested_images": [],
+          "layout": {
+            "title_position": "top",
+            "title_size": "medium",
+            "content_position": "main",
+            "image_position": "left"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        },
+        {
+          "slide_number": 13,
+          "slide_type": "summary",
+          "title": "微积分：统一的逻辑之网",
+          "bullet_points": [
+            "极限：定义‘逼近’的语言",
+            "导数：局部变化率（微分）",
+            "积分：全局累积量（求和）",
+            "牛顿–莱布尼茨：微分与积分互逆"
+          ],
+          "speaker_notes": "总结板书三大概念及其关系。布置‘一分钟反思’：写在便签上交。预告下节：导数的应用——极值、图像、优化。感谢参与！",
+          "suggested_images": [
+            "calculus_unified_net.png"
+          ],
+          "layout": {
+            "title_position": "top",
+            "title_size": "large",
+            "content_position": "main",
+            "image_position": "background_light"
+          },
+          "style": {
+            "color_scheme": "rainbow",
+            "font_family": "Arial, sans-serif",
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "accent_color": "#0066cc"
+          }
+        }
+      ]
+    },
+    "discussion_questions": [
+      "如果函数在x=a处不连续，它可能在x=a处可导吗？为什么？",
+      "导数f′(x)在某点为0，是否意味着原函数f(x)在该点取得极值？请举例说明。",
+      "定积分∫ₐᵇf(x)dx的值为0，能否推出f(x)在[a,b]上恒等于0？为什么？",
+      "微积分基本定理第二部分说‘积分可用原函数计算’，那么‘原函数一定存在吗’？（提示：考虑f(x)=1/x在包含0的区间）"
+    ],
+    "homework": "完成工作纸剩余2题：① 用ε-δ定义证明lim_(x→3)(2x−1)=5；② 计算∫ (3x² + e^x − sin x) dx，并求其在[0,1]上的定积分值。要求：写出每一步依据（如‘幂函数积分公式’、‘微积分基本定理’）。"
+  }
+}

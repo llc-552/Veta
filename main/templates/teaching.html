@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -74,20 +74,18 @@
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 2fr;
             min-height: 600px;
         }
 
         @media (max-width: 768px) {
             .main-content {
-                grid-template-columns: 1fr;
+                /* stacked on small screens */
             }
         }
 
         .sidebar {
             background: #f8f9fa;
-            padding: 30px;
+            padding: 24px 20px;
             border-right: 1px solid #e0e0e0;
             overflow-y: auto;
         }
@@ -156,10 +154,103 @@
         }
 
         .content-area {
-            padding: 30px;
+            padding: 24px 20px;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            gap: 16px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            background: #f4f6ff;
+            border-left: 1px solid #e0e0e0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .chat-panel h3 {
+            color: #667eea;
+            margin-bottom: 14px;
+            font-size: 1.1em;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .chat-panel .refine-chat-history {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .chat-panel .refine-input-row {
+            flex-shrink: 0;
+            margin-top: 10px;
+        }
+
+        .panel {
+            background: #f8f9fa;
+            border: 1px solid #e6e6e6;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel h3 {
+            color: #334;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .refine-chat-history {
+            flex: 1;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #ececec;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .refine-msg {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .refine-msg.user { color: #2f5fd0; }
+        .refine-msg.assistant { color: #333; }
+
+        .refine-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .refine-input-row input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .refine-input-row button {
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .refine-input-row button:disabled {
+            background: #a7b2e8;
+            cursor: not-allowed;
         }
 
         .section-hidden {
@@ -171,7 +262,22 @@
         }
 
         .teaching-section.active {
-            display: block;
+            display: grid;
+            grid-template-columns: 300px 1fr 360px;
+            min-height: 600px;
+            width: 100%;
+        }
+
+        @media (max-width: 1100px) {
+            .teaching-section.active {
+                grid-template-columns: 260px 1fr 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .teaching-section.active {
+                grid-template-columns: 1fr;
+            }
         }
 
         .chat-messages {
@@ -503,7 +609,23 @@
                             等待生成中...
                         </p>
                     </div>
-                    <div id="teaching-result"></div>
+
+                    <div class="panel">
+                        <h3>文件导出结果</h3>
+                        <div id="teaching-result"></div>
+                    </div>
+                </div>
+
+                <div class="chat-panel">
+                    <h3>交互式修改对话</h3>
+                    <div id="refine-chat-history" class="refine-chat-history">
+                        <p style="color:#888; font-size:13px;">先生成一次教案与PPT，随后可在这里输入修改要求，例如：
+                            “第3页加一张流程图，并把总结改成3条要点”。</p>
+                    </div>
+                    <div class="refine-input-row">
+                        <input type="text" id="refine-input" placeholder="输入你希望修改PPT的要求..." disabled>
+                        <button id="refine-btn" onclick="refinePPT()" disabled>发送</button>
+                    </div>
                 </div>
             </div>
 
@@ -513,6 +635,7 @@
 
     <script>
         let selectedTemplate = 'formal';
+        let currentSession = { userId: null, taskId: null, ready: false };
 
         // ── Accumulated file list (persists across multiple file-picker opens) ──
         let selectedFiles = [];   // Array of File objects
@@ -587,6 +710,63 @@
             });
         }
 
+        function appendRefineMessage(role, text) {
+            const history = document.getElementById('refine-chat-history');
+            const row = document.createElement('div');
+            row.className = `refine-msg ${role}`;
+            row.textContent = role === 'user' ? `你：${text}` : `系统：${text}`;
+            history.appendChild(row);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        function setRefineEnabled(enabled) {
+            const input = document.getElementById('refine-input');
+            const btn = document.getElementById('refine-btn');
+            input.disabled = !enabled;
+            btn.disabled = !enabled;
+        }
+
+        function renderExportResult(data) {
+            const resultDiv = document.getElementById('teaching-result');
+            const exportResult = data.export_result || {};
+            const exports = exportResult.exports || {};
+            const lessonPlan = exports.lesson_plan || {};
+            const pptExport  = exports.ppt || {};
+
+            let hasFiles = false;
+            let resultHTML = '<div class="result-box"><h3>✅ 生成完成</h3>';
+
+            const docxFile = (lessonPlan.files || {}).docx;
+            if (docxFile && docxFile.path) {
+                hasFiles = true;
+                resultHTML +=
+                    '<div class="result-item">' +
+                    '<strong>📄 教案文档：</strong><br>' +
+                    (docxFile.format || 'Word Document') + ' (' + ((docxFile.size_mb || 0).toFixed(2)) + ' MB)<br>' +
+                    '<a href="/download?path=' + encodeURIComponent(docxFile.path) + '" class="download-btn" download>下载教案</a>' +
+                    '</div>';
+            }
+
+            const pptFile = pptExport.file;
+            if (pptFile && pptFile.path) {
+                hasFiles = true;
+                resultHTML +=
+                    '<div class="result-item">' +
+                    '<strong>🎨 PPT演示：</strong><br>' +
+                    (pptFile.format || 'PowerPoint') + ' (' + ((pptFile.size_mb || 0).toFixed(2)) + ' MB)<br>' +
+                    '共 ' + (pptExport.total_slides || 0) + ' 张幻灯片<br>' +
+                    '<a href="/download?path=' + encodeURIComponent(pptFile.path) + '" class="download-btn" download>下载PPT</a>' +
+                    '</div>';
+            }
+
+            if (!hasFiles && data.status === 'completed') {
+                resultHTML += '<div class="result-item" style="color:#666;">文件已生成，请查看服务器 generated_lessons/ 目录。</div>';
+            }
+
+            resultHTML += '</div>';
+            if (hasFiles || data.status === 'completed') resultDiv.innerHTML = resultHTML;
+        }
+
         // ── Generate lesson & PPT ───────────────────────────────
         async function generateLesson() {
             const theme = document.getElementById('teaching-theme').value.trim();
@@ -599,7 +779,11 @@
 
             const messagesDiv = document.getElementById('teaching-messages');
             const resultDiv  = document.getElementById('teaching-result');
+            const refineHistory = document.getElementById('refine-chat-history');
             resultDiv.innerHTML = '';
+            refineHistory.innerHTML = '<p style="color:#888; font-size:13px;">生成中，完成后可在此继续对话修改PPT。</p>';
+            setRefineEnabled(false);
+
             messagesDiv.innerHTML = `
                 <div style="text-align:center; padding:20px;">
                     <div class="loading"></div>
@@ -610,13 +794,14 @@
                 </div>`;
 
             const userInput = `教学主题：${theme}\n学习目标：${objectives}\nPPT风格：${selectedTemplate}`;
+            const newUserId = 'teacher_' + Date.now();
+            const newTaskId = 'lesson_' + Date.now();
 
             const formData = new FormData();
             formData.append('message', userInput);
             formData.append('mode', 'teaching');
-            formData.append('user_id', 'teacher_' + Date.now());
-            formData.append('task_id', 'lesson_' + Date.now());
-            // Append all accumulated teaching material files
+            formData.append('user_id', newUserId);
+            formData.append('task_id', newTaskId);
             selectedFiles.forEach(f => formData.append('files', f));
 
             try {
@@ -627,60 +812,31 @@
 
                 if (data.error) {
                     messagesDiv.innerHTML = `<div class="error-message">❌ ${data.error}</div>`;
+                    currentSession = { userId: null, taskId: null, ready: false };
                     return;
                 }
 
                 const statusClass = data.status === 'completed' ? 'success' : 'error';
-                messagesDiv.innerHTML = `
-                    <div class="message assistant">
-                        <div class="message-content">
-                            ${data.response}
-                            <span class="status-badge ${statusClass}">${data.status}</span>
-                            <p style="margin-top:8px; color:#666; font-size:13px;">${data.processing_step || ''}</p>
-                        </div>
-                    </div>`;
+                messagesDiv.innerHTML =
+                    '<div class="message assistant">' +
+                        '<div class="message-content">' +
+                            data.response +
+                            '<span class="status-badge ' + statusClass + '">' + data.status + '</span>' +
+                            '<p style="margin-top:8px; color:#666; font-size:13px;">' + (data.processing_step || '') + '</p>' +
+                        '</div>' +
+                    '</div>';
 
-                // ── Parse export results ──────────────────────
-                const exportResult = data.export_result || {};
-                const exports = exportResult.exports || {};
-                const lessonPlan = exports.lesson_plan || {};
-                const pptExport  = exports.ppt || {};
+                renderExportResult(data);
 
-                let hasFiles = false;
-                let resultHTML = '<div class="result-box"><h3>✅ 生成完成</h3>';
-
-                // Lesson plan docx
-                const docxFile = (lessonPlan.files || {}).docx;
-                if (docxFile && docxFile.path) {
-                    hasFiles = true;
-                    resultHTML += `
-                        <div class="result-item">
-                            <strong>📄 教案文档：</strong><br>
-                            ${docxFile.format || 'Word Document'} (${(docxFile.size_mb || 0).toFixed(2)} MB)<br>
-                            <a href="/download?path=${encodeURIComponent(docxFile.path)}" class="download-btn" download>下载教案</a>
-                        </div>`;
-                }
-
-                // PPT
-                const pptFile = pptExport.file;
-                if (pptFile && pptFile.path) {
-                    hasFiles = true;
-                    resultHTML += `
-                        <div class="result-item">
-                            <strong>🎨 PPT演示：</strong><br>
-                            ${pptFile.format || 'PowerPoint'} (${(pptFile.size_mb || 0).toFixed(2)} MB)<br>
-                            共 ${pptExport.total_slides || 0} 张幻灯片<br>
-                            <a href="/download?path=${encodeURIComponent(pptFile.path)}" class="download-btn" download>下载PPT</a>
-                        </div>`;
-                }
-
-                if (!hasFiles && data.status === 'completed') {
-                    resultHTML += '<div class="result-item" style="color:#666;">文件已生成，请查看服务器 generated_lessons/ 目录。</div>';
-                }
-
-                resultHTML += '</div>';
-                if (hasFiles || data.status === 'completed') {
-                    resultDiv.innerHTML = resultHTML;
+                if (data.status === 'completed') {
+                    currentSession = {
+                        userId: data.user_id || newUserId,
+                        taskId: data.task_id || newTaskId,
+                        ready: true
+                    };
+                    refineHistory.innerHTML = '';
+                    appendRefineMessage('assistant', '初稿已生成。你可以继续提出修改要求，我会重新导出最新PPT和教案。');
+                    setRefineEnabled(true);
                 }
 
             } catch (error) {
@@ -689,9 +845,59 @@
             }
         }
 
+        async function refinePPT() {
+            if (!currentSession.ready) {
+                alert('请先生成一次教案与PPT');
+                return;
+            }
+
+            const input = document.getElementById('refine-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appendRefineMessage('user', text);
+            input.value = '';
+            setRefineEnabled(false);
+            appendRefineMessage('assistant', '正在根据你的要求修改，请稍候...');
+
+            try {
+                const response = await fetch('/refine_ppt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        user_id: currentSession.userId,
+                        task_id: currentSession.taskId
+                    })
+                });
+                const data = await response.json();
+
+                const history = document.getElementById('refine-chat-history');
+                // Remove latest temporary "processing" line
+                if (history.lastChild && history.lastChild.textContent.includes('正在根据你的要求修改')) {
+                    history.removeChild(history.lastChild);
+                }
+
+                if (data.status === 'completed') {
+                    appendRefineMessage('assistant', '已完成修改，并生成了新的可下载文件。');
+                    renderExportResult(data);
+                } else {
+                    appendRefineMessage('assistant', '修改失败：' + (data.error || '未知错误'));
+                }
+            } catch (error) {
+                appendRefineMessage('assistant', `请求失败：${error.message}`);
+            } finally {
+                setRefineEnabled(true);
+            }
+        }
+
         // ── Init ────────────────────────────────────────────────
         selectTemplate('formal', document.querySelector('.template-card'));
         setupDragDrop('materials-drop-zone', 'teaching-materials', addMaterialFiles);
+
+        document.getElementById('refine-input').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') refinePPT();
+        });
     </script>
 </body>
 </html>
